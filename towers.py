@@ -7,7 +7,7 @@ from pygame.sprite import Group
 from main_menu import Menu
 from leadearboard import Leaderboard
 
-
+# 12345 test
 def run():
     """run game"""
     pygame.init()
