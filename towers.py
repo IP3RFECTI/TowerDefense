@@ -6,6 +6,7 @@ from stats import Stats
 from pygame.sprite import Group
 from main_menu import Menu
 from leadearboard import Leaderboard
+from settings import Settings
 
 # 123455 test
 def run():
@@ -37,8 +38,10 @@ def run():
     enemy_timer = pygame.USEREVENT + 1
     pygame.time.set_timer(enemy_timer, 1000)
 
+    """menu interface"""
     # show_leaders = False
     leaderboard = Leaderboard(screen, width, height)
+    settings = Settings(screen, width, height)
     main_menu = Menu(screen)
     show_menu(main_menu, screen, leaderboard)
     stats = Stats()

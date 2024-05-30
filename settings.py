@@ -1,12 +1,11 @@
 import csv
 import pygame
 
-
 class Settings():
 
-    """statistics"""
-    def __init__(self, screen):
-        """stat init"""
+    """settings"""
+    def __init__(self, screen, width, height):
+        """settings init"""
         self.path = 'assets/leaderboard/settings.txt'
         self.file_data = []
         self.titles = ["Эффекты", "Музыка"]
@@ -17,7 +16,7 @@ class Settings():
 
     def check_file(self):
         try:
-            with open("assets/leaderboard/leaderboard.csv", encoding='utf-8') as r_file:
+            with open(self.path, encoding='utf-8') as r_file:
                 file_reader = csv.reader(r_file)
                 for val in file_reader:
                     self.file_data.append(val)
@@ -28,13 +27,7 @@ class Settings():
                 file_writer.writerow({self.titles[0]: "Alex", self.titles[1]: str(1000)})
                 file_writer.writerow({self.titles[0]: "Player", self.titles[1]: str(0)})
 
-    def new_score_is_more(self, new_record):
-        for val in self.file_data:
-            if val[0] == "Player" and int(val[1]) < new_record:
-                return True
-        return False
-
-    def draw_leaderboards(self):
+    def draw_settings(self):
         counter = 0
         for name, val in self.file_data:
             if counter == 0:
@@ -49,7 +42,7 @@ class Settings():
             counter += 1
 
 
-    def leaderboard_clicked(self):
+    def settings_clicked(self):
         """start click check"""
         if self.clicked:
             self.clicked = False
