@@ -13,7 +13,7 @@ class Menu:
 
     def append_option(self, option, callback):
         """add new option"""
-        self._option_surfaces.append(self._ARIAL_50.render(option, True, (255, 255, 255)))
+        self._option_surfaces.append(self._ARIAL_50.render(option, True, (217, 217, 217)))
         self._callback.append(callback)
 
     def delete_options(self):

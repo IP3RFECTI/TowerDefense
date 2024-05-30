@@ -55,10 +55,10 @@ def events(screen, main_menu, player, enemy_timer, enemies, width, height):
                 player.mdown = False
 
 
-def show_menu(screen, background, main_menu):
+def show_menu(screen, background, main_menu, width, height):
     """show main menu"""
     screen.blit(background, (0, 0))
-    main_menu.draw(screen, 180, 175, 75)
+    main_menu.draw(screen, width * 0.5, height * 0.2, 75)
 
 
 def ship_kill(stats, score, player, enemies, height, leaderboard):

@@ -5,13 +5,16 @@ import pygame
 class Leaderboard():
 
     """statistics"""
-    def __init__(self, screen):
+    def __init__(self, screen, width, height):
         """stat init"""
+        self.width = width
+        self.height = height
+        self.rows_offset = 35
         self.path = 'assets/leaderboard/leaderboard.csv'
         self.file_data = []
-        self.titles = ["Name", "Score"]
+        self.titles = ["Имя", "Очки"]
         self.check_file()
-        self.ARIAL_50 = pygame.font.SysFont('arial', 50)
+        self.ARIAL_50 = pygame.font.SysFont('arial', 30)
         self.screen = screen
         self.clicked = True
 
@@ -59,13 +62,13 @@ class Leaderboard():
         for name, val in self.file_data:
             if counter == 0:
                 draw = self.ARIAL_50.render(name + "                  " +
-                                            val, True, (255, 255, 255))
-                self.screen.blit(draw, (200, 400 + (counter*50)))
+                                            val, True, (217, 217, 0))
+                self.screen.blit(draw, (self.width*0.05, self.height*0.05 + (counter*self.rows_offset)))
             else:
-                draw = self.ARIAL_50.render(name + ": ", True, (255, 255, 255))
-                self.screen.blit(draw, (200, 400 + (counter*50)))
-                draw = self.ARIAL_50.render(val, True, (255, 255, 255))
-                self.screen.blit(draw, (510, 400 + (counter*50)))
+                draw = self.ARIAL_50.render(name + ": ", True, (100, 100, 255))
+                self.screen.blit(draw, (self.width*0.05, self.height*0.05 + (counter*self.rows_offset)))
+                draw = self.ARIAL_50.render(val, True, (100, 100, 255))
+                self.screen.blit(draw, (self.width*0.27, self.height*0.05 + (counter*self.rows_offset)))
             counter += 1
 
 
