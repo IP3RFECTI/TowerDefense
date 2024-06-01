@@ -7,6 +7,7 @@ from pygame.sprite import Group
 from main_menu import Menu
 from leadearboard import Leaderboard
 from settings import Settings
+from catapult import Catapult
 
 
 # 123455 test
@@ -30,13 +31,9 @@ def run():
     # For sounds
     # sound1 = pg.mixer.Sound('boom.wav')
     # sound2 = pg.mixer.Sound('one.ogg')
-
+    """objects"""
     player = Player(screen)
-    enemies = Group()
-
-    enemy_timer = pygame.USEREVENT + 1
-    pygame.time.set_timer(enemy_timer, 1000)
-
+    catapult = Catapult(screen, width * 0.9)
     """menu interface"""
     # show_leaders = False
     leaderboard = Leaderboard(screen)
@@ -49,13 +46,13 @@ def run():
     while True:
         start = main_menu.start_clicked()
         show_leaders = leaderboard.clicked
-        controls.events(screen, main_menu, player, enemy_timer, enemies)
+        controls.events(screen, main_menu, player)
         controls.show_menu(screen, background, main_menu)
         player.create_player()
         if start:
-            controls.update(player, score)
-            controls.update_enemies(enemies, height, score)
-            start = controls.game_over(stats, screen, score, player, enemies, height, leaderboard)
+            controls.update(player, None, score)
+            controls.update_catapult(catapult)
+            # start = controls.game_over(stats, screen, score, player, leaderboard)
         elif show_leaders:
             leaderboard.draw_leaderboards()
 
