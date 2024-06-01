@@ -2,19 +2,19 @@ import csv
 import pygame
 
 
-class Leaderboard():
+class Leaderboard:
 
     """statistics"""
-    def __init__(self, screen, width, height):
+    def __init__(self, screen):
         """stat init"""
-        self.width = width
-        self.height = height
+        self.width = screen.get_width()
+        self.height = screen.get_height()
         self.rows_offset = 35
         self.path = 'assets/leaderboard/leaderboard.csv'
         self.file_data = []
         self.titles = ["Имя", "Очки"]
         self.check_file()
-        self.ARIAL_50 = pygame.font.SysFont('arial', 30)
+        self.font_Montserrat = pygame.font.Font('assets/fonts/Montserrat-ExtraBold.ttf', 30)
         self.screen = screen
         self.clicked = True
 
@@ -27,7 +27,7 @@ class Leaderboard():
                 new_data.append(["Player", int(new_record)])
             else:
                 new_data.append([self.file_data[values][0], int(self.file_data[values][1])])
-        new_data.sort(key=lambda x: x[1], reverse=True)
+        new_data.sort(key=lambda x: x[1], reverse=True) # switch data
         new_data2 = new_data
         new_data = [self.titles]
         for val in new_data2:
@@ -61,13 +61,13 @@ class Leaderboard():
         counter = 0
         for name, val in self.file_data:
             if counter == 0:
-                draw = self.ARIAL_50.render(name + "                  " +
-                                            val, True, (217, 217, 0))
+                draw = self.font_Montserrat.render(name + "                  " +
+                                                   val, True, (217, 217, 0))
                 self.screen.blit(draw, (self.width*0.05, self.height*0.05 + (counter*self.rows_offset)))
             else:
-                draw = self.ARIAL_50.render(name + ": ", True, (100, 100, 255))
+                draw = self.font_Montserrat.render(name + ": ", True, (100, 100, 255))
                 self.screen.blit(draw, (self.width*0.05, self.height*0.05 + (counter*self.rows_offset)))
-                draw = self.ARIAL_50.render(val, True, (100, 100, 255))
+                draw = self.font_Montserrat.render(val, True, (100, 100, 255))
                 self.screen.blit(draw, (self.width*0.27, self.height*0.05 + (counter*self.rows_offset)))
             counter += 1
 

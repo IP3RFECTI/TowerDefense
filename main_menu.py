@@ -5,7 +5,7 @@ class Menu:
     """menu actions"""
     def __init__(self, screen):
         """init main menu params"""
-        self._ARIAL_50 = pygame.font.SysFont('arial', 50)
+        self._ARIAL_50 = pygame.font.Font('assets/fonts/Montserrat-ExtraBold.ttf', 70)
         self._option_surfaces = []
         self._callback = []
         self._current_option_index = 0

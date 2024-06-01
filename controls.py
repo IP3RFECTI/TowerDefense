@@ -1,31 +1,31 @@
 import time
 import pygame
 import sys
-from enemy import Enemy
+from catapult import Catapult
 from random import randrange
 
 
-def events(screen, main_menu, player, enemy_timer, enemies, width, height):
+def events(screen, main_menu, player, enemy_timer, enemies):
     """events processes"""
     for event in pygame.event.get():
-        if event.type == enemy_timer:
-            screen_section = randrange(0, 4)
-            direction = 0
-            spawn_point = 0
-            if screen_section == 0:
-                direction = 1
-                spawn_point = randrange(0, width-9)
-            elif screen_section == 1:
-                direction = -1
-                spawn_point = randrange(0, width-9)
-            elif screen_section == 2:
-                direction = 1
-                spawn_point = randrange(0, height-9)
-            elif screen_section == 3:
-                direction = -1
-                spawn_point = randrange(0, height-9)
-            new_enemy = Enemy(screen, direction, spawn_point, screen_section)
-            enemies.add(new_enemy)
+        # if event.type == enemy_timer:
+        #     screen_section = randrange(0, 4)
+        #     direction = 0
+        #     spawn_point = 0
+        #     if screen_section == 0:
+        #         direction = 1
+        #         spawn_point = randrange(0, width-9)
+        #     elif screen_section == 1:
+        #         direction = -1
+        #         spawn_point = randrange(0, width-9)
+        #     elif screen_section == 2:
+        #         direction = 1
+        #         spawn_point = randrange(0, height-9)
+        #     elif screen_section == 3:
+        #         direction = -1
+        #         spawn_point = randrange(0, height-9)
+        #     new_enemy = Enemy(screen, direction, spawn_point, screen_section)
+        #     enemies.add(new_enemy)
         if event.type == pygame.QUIT:
             sys.exit()
         elif event.type == pygame.KEYDOWN:
@@ -55,17 +55,17 @@ def events(screen, main_menu, player, enemy_timer, enemies, width, height):
                 player.mdown = False
 
 
-def show_menu(screen, background, main_menu, width, height):
+def show_menu(screen, background, main_menu):
     """show main menu"""
     screen.blit(background, (0, 0))
-    main_menu.draw(screen, width * 0.5, height * 0.2, 75)
+    main_menu.draw(screen, screen.get_width() * 0.5, screen.get_height() * 0.2, 75)
 
 
 def ship_kill(stats, score, player, enemies, height, leaderboard):
     """player-alliens contact"""
     if stats.lifes_left > 0:
         stats.lifes_left -= 1
-        score.image_lifes()
+        # score.image_lifes()
         enemies.empty()
         update_enemies(enemies, height, score)
         player.create_player()

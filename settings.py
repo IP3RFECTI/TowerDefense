@@ -1,12 +1,13 @@
 import csv
 import pygame
 
-class Settings():
+
+class Settings:
 
     """settings"""
-    def __init__(self, screen, width, height):
+    def __init__(self, screen):
         """settings init"""
-        self.path = 'assets/leaderboard/settings.txt'
+        self.path = 'assets/settings.txt'
         self.file_data = []
         self.titles = ["Эффекты", "Музыка"]
         self.check_file()
@@ -15,17 +16,7 @@ class Settings():
         self.clicked = True
 
     def check_file(self):
-        try:
-            with open(self.path, encoding='utf-8') as r_file:
-                file_reader = csv.reader(r_file)
-                for val in file_reader:
-                    self.file_data.append(val)
-        except FileNotFoundError:
-            with open(self.path, mode="w", encoding='utf-8') as w_file:
-                file_writer = csv.DictWriter(w_file, delimiter=",", lineterminator="\r", fieldnames=self.titles)
-                file_writer.writeheader()
-                file_writer.writerow({self.titles[0]: "Alex", self.titles[1]: str(1000)})
-                file_writer.writerow({self.titles[0]: "Player", self.titles[1]: str(0)})
+        pass
 
     def draw_settings(self):
         counter = 0
