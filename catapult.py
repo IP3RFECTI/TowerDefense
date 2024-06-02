@@ -28,8 +28,8 @@ class Catapult(pygame.sprite.Sprite):
         self.animation_counter = 7
 
         self.clock = pygame.time.Clock()
-        self.seconds = 3
-        self.cooldown_timer = self.seconds * self.clock.tick(1000)
+        self.seconds = 6    # time between catapult animation
+        self.cooldown_timer = self.seconds * self.clock.tick(30)
         self.timer_counter = 0
 
     def draw_catapult(self):
@@ -61,6 +61,7 @@ class Catapult(pygame.sprite.Sprite):
     def animation_is_stopped(self):
         if self.timer_counter <= self.cooldown_timer:
             self.timer_counter += 1
+            print(self.timer_counter)
             return True
         self.is_stopped = False
         self.timer_counter = 0
