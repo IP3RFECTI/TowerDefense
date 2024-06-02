@@ -22,7 +22,7 @@ def run():
     """Fonts and images"""
     background = pygame.image.load('assets/images/background.png').convert()
     font_Montserrat = pygame.font.Font('assets/fonts/Montserrat-ExtraBold.ttf', 70)  # НЕ используется здесь
-    # Рисование изображения в правой части экранаfffffff
+    # Рисование изображения в правой части экрана
     """Music"""
     pygame.mixer.music.load('assets/music/BGMusic1.mp3')
     pygame.mixer.music.set_volume(0.15)
