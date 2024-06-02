@@ -19,7 +19,8 @@ def events(screen, main_menu, player):
                 if not main_menu.start_clicked():
                     main_menu.select()
                     catapult = Catapult(screen, screen.get_width())
-        elif event.type == pygame.KEYUP:
+        elif event.type == pygame.USEREVENT:
+
             pass
 
 
@@ -40,13 +41,13 @@ def update_catapult(catapult):
     catapult.draw_catapult()
 
 # Rocks update
-# def game_over(stats, screen, score, player, leaderboard, rocks):
-#     """update positions"""
-#     rocks.update()
-#     if pygame.sprite.spritecollideany(player, rocks):
-#         # ship_kill(stats, score, player, enemies, height, leaderboard)
-#         pass
-#     enemies_check(screen, rocks)
+def game_over(stats, screen, score, player, leaderboard, rocks):
+    """update positions"""
+    rocks.update()
+    if pygame.sprite.spritecollideany(player, rocks):
+        # ship_kill(stats, score, player, enemies, height, leaderboard)
+        pass
+    enemies_check(screen, rocks)
 
 
 def enemies_check(screen, enemies):

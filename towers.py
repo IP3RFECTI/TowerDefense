@@ -43,6 +43,8 @@ def run():
     stats = Stats()
     score = Scores(screen, stats)
 
+
+
     while True:
         start = main_menu.start_clicked()
         show_leaders = leaderboard.clicked
@@ -55,9 +57,8 @@ def run():
             # start = controls.game_over(stats, screen, score, player, leaderboard)
         elif show_leaders:
             leaderboard.draw_leaderboards()
-
-        pygame.display.flip()
         pygame.time.Clock().tick(60)
+        pygame.display.flip()
 
 
 def game_start(main_menu):
