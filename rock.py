@@ -1,7 +1,7 @@
 import pygame
 
 
-# throw direction formula
+# throw direction formulaffffffffffff
 # -x^2-y  || y = -x^2 || x = -sqrt(y)
 class Stone(pygame.sprite.Sprite):
     def __init__(self, screen, spawn_point, player):
