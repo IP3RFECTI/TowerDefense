@@ -1,7 +1,4 @@
-import random
 import pygame
-from random import randrange
-import time
 
 
 class Catapult(pygame.sprite.Sprite):
@@ -15,8 +12,8 @@ class Catapult(pygame.sprite.Sprite):
         # self.direction = direction
         self.spawn_point = spawn_point
         self.end_point = spawn_point / 10 * 9
-        self.catapult_image = pygame.transform.flip(pygame.image.load('assets/animations/catapult_throwing/1.png'), 1,
-                                                    0)
+        self.catapult_image = pygame.transform.flip \
+            (pygame.image.load('assets/animations/catapult_throwing/1.png'), 1, 0)
         """animation"""
         self.frame_images = []
         for i in range(1, 9):
@@ -28,17 +25,16 @@ class Catapult(pygame.sprite.Sprite):
         self.animation_counter = 7
 
         self.clock = pygame.time.Clock()
-        self.seconds = 6    # time between catapult animation
-        self.cooldown_timer = self.seconds * self.clock.tick(30)
         self.timer_counter = 0
+
+        self.seconds = 6  # time between catapult animation
+        self.cooldown_timer = self.seconds * self.clock.tick(30) # animation speed
 
     def draw_catapult(self):
         """catapult rides"""
         if self.spawn_point >= self.end_point:
             self.screen.blit(self.catapult_image, (self.spawn_point, self.height))
             self.spawn_point -= 1
-        # elif self.counter >= self.animation_length:
-        # pass
         else:
             self.catapult_animation()
 
@@ -61,7 +57,7 @@ class Catapult(pygame.sprite.Sprite):
     def animation_is_stopped(self):
         if self.timer_counter <= self.cooldown_timer:
             self.timer_counter += 1
-            print(self.timer_counter)
+            # print(self.timer_counter)
             return True
         self.is_stopped = False
         self.timer_counter = 0
