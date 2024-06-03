@@ -1,13 +1,14 @@
 import pygame
-
+from rock import Rock
 
 class Catapult(pygame.sprite.Sprite):
     """enemy actions"""
 
-    def __init__(self, screen, spawn_point):
+    def __init__(self, screen, spawn_point, player):
         """start position"""
         super(Catapult, self).__init__()
         self.screen = screen
+        self.player = player
         self.height = self.screen.get_height() * 0.6
         # self.direction = direction
         self.spawn_point = spawn_point
@@ -27,8 +28,12 @@ class Catapult(pygame.sprite.Sprite):
         self.clock = pygame.time.Clock()
         self.timer_counter = 0
 
-        self.seconds = 6  # time between catapult animation
+        self.seconds = 3  # time between catapult animation
         self.cooldown_timer = self.seconds * self.clock.tick(30) # animation speed
+
+        self.rocks = []
+
+
 
     def draw_catapult(self):
         """catapult rides"""
@@ -45,6 +50,7 @@ class Catapult(pygame.sprite.Sprite):
             if self.counter >= self.animation_length:
                 self.counter = 1
                 self.is_stopped = True
+                self.create_rock()
             self.screen.blit(self.frame_images[self.counter], (self.spawn_point, self.height))
             pygame.display.flip()
             self.clock.tick(self.animation_counter)
@@ -62,3 +68,6 @@ class Catapult(pygame.sprite.Sprite):
         self.is_stopped = False
         self.timer_counter = 0
         return False
+
+    def create_rock(self):
+        self.rocks.append(Rock(self.screen, self.spawn_point, self.player))

@@ -33,7 +33,7 @@ def run():
     # sound2 = pg.mixer.Sound('one.ogg')
     """objects"""
     player = Player(screen)
-    catapult = Catapult(screen, width * 0.9)
+    catapult = Catapult(screen, width * 0.9, player)
     """menu interface"""
     # show_leaders = False
     leaderboard = Leaderboard(screen)
@@ -42,7 +42,6 @@ def run():
     show_menu(main_menu, screen, leaderboard, settings)
     stats = Stats()
     score = Scores(screen, stats)
-
 
 
     while True:
@@ -54,6 +53,7 @@ def run():
         if start:
             controls.update(player, None, score)
             controls.update_catapult(catapult)
+            controls.update_rocks(catapult.rocks, score)
             # start = controls.game_over(stats, screen, score, player, leaderboard)
         elif show_leaders:
             leaderboard.draw_leaderboards()
