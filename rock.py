@@ -33,7 +33,7 @@ class Rock(pygame.sprite.Sprite):
     def rock_update(self):
         """catapult rides"""
         if self.current_point_x >= self.end_point_x:
-            self.current_point_x -= 10
+            self.current_point_x -= self.current_point_x*0.05
             self.rock_animation()
         else:
             print("Game Over")
