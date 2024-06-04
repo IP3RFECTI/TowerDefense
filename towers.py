@@ -71,8 +71,6 @@ def run():
             controls.update(player, None, score)
             controls.update_catapult(catapult)
             controls.update_rocks(catapult.rocks, score)
-            # controls.roundline(square, 'black', event.pos, last_pos, radius=1)
-            # start = controls.game_over(stats, screen, score, player, leaderboard)
             screen.blit(square, (0, 0))
         elif show_leaders:
             leaderboard.draw_leaderboards()

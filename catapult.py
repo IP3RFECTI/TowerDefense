@@ -28,7 +28,7 @@ class Catapult(pygame.sprite.Sprite):
         self.clock = pygame.time.Clock()
         self.timer_counter = 0
 
-        self.seconds = 3  # time between catapult animation
+        self.seconds = 2  # time between catapult animation
         self.cooldown_timer = self.seconds * self.clock.tick(30) # animation speed
 
         self.rocks = []
