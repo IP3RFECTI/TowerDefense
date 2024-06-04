@@ -1,19 +1,23 @@
 import pygame
-
+pygame.init()
+myfont = pygame.font.Font('assets/fonts/Montserrat-ExtraBold.ttf', 50)
+text = myfont.render('Башня Мага', True, '#000B24')
 
 class Menu:
     """menu actions"""
     def __init__(self, screen):
         """init main menu params"""
-        self._ARIAL_50 = pygame.font.Font('assets/fonts/Montserrat-ExtraBold.ttf', 70)
-        self._option_surfaces = []
+        self._ARIAL_50 = pygame.font.Font('assets/fonts/Montserrat-ExtraBold.ttf', 35)
+        self._option_surfaces = [0, 1, 2, 3]
         self._callback = []
         self._current_option_index = 0
+        self.rect = (250, 60)
+        self.pad = 75
         # self.screen = screen
 
     def append_option(self, option, callback):
         """add new option"""
-        self._option_surfaces.append(self._ARIAL_50.render(option, True, (217, 217, 217)))
+        self._option_surfaces.append(self._ARIAL_50.render(option, True, ('#002069')))
         self._callback.append(callback)
 
     def delete_options(self):
@@ -34,11 +38,17 @@ class Menu:
 
     def draw(self, surface, x, y, option_y_padding):
         """draw text"""
+
         for i, option in enumerate(self._option_surfaces):
             option_rect = option.get_rect()
             option_rect.center = (x, y + i * option_y_padding)
             if i == self._current_option_index:
-                pygame.draw.rect(surface, (0, 100, 0), option_rect)
+                pygame.draw.rect(surface, ('#FFFFFF'), option_rect)
+                pygame.draw.rect(surface, ('#D9D9D9'), (275, 64, 250, 60))
+                pygame.draw.rect(surface, ('#D9D9D9'), (275, 139, 250, 60))
+                pygame.draw.rect(surface, ('#D9D9D9'), (275, 214, 250, 60))
+                pygame.draw.rect(surface, ('#D9D9D9'), (275, 289, 250, 60))
+                surface.blit(text, (230, 0))
             surface.blit(option, option_rect)
 
     def start_clicked(self):
