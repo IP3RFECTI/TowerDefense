@@ -8,6 +8,16 @@ from main_menu import Menu
 from leadearboard import Leaderboard
 from settings import Settings
 from catapult import Catapult
+import numpy as np
+import os
+from tensorflow.keras.models import load_model
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
+from tensorflow.keras import utils
+from tensorflow.keras.preprocessing import image
+import matplotlib.pyplot as plt
+from PIL import Image
+import random
+model = load_model('mnist_dense.h5')
 
 
 # 123455 test
@@ -42,19 +52,28 @@ def run():
     show_menu(main_menu, screen, leaderboard, settings)
     stats = Stats()
     score = Scores(screen, stats)
+    """AI surface"""
+    square = pygame.Surface(main_res)
+    myfont = pygame.font.Font('assets/fonts/Molot.otf')
+    radius = 5
+    model = load_model('mnist_dense.h5')
+    last_pos = (150, 200)
+    draw_on = False
 
 
     while True:
         start = main_menu.start_clicked()
         show_leaders = leaderboard.clicked
-        controls.events(screen, main_menu, player)
+        controls.events(screen, main_menu, player, square, radius, myfont, model, last_pos, draw_on)
         controls.show_menu(screen, background, main_menu)
         player.create_player()
         if start:
             controls.update(player, None, score)
             controls.update_catapult(catapult)
             controls.update_rocks(catapult.rocks, score)
+            # controls.roundline(square, 'black', event.pos, last_pos, radius=1)
             # start = controls.game_over(stats, screen, score, player, leaderboard)
+            screen.blit(square, (0, 0))
         elif show_leaders:
             leaderboard.draw_leaderboards()
         pygame.time.Clock().tick(60)
