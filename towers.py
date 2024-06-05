@@ -22,6 +22,7 @@ import itertools
 squaree = pygame.Surface((150, 200))
 squaree.fill('#FFFFFF')
 is_stopped = False
+#ff
 def run():
     """run game"""
     pygame.init()
