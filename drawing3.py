@@ -20,8 +20,8 @@ RED = (255, 0, 0)
 
 pygame.init()
 # Screen settings
-W = 600
-H = 400
+W = 1280
+H = 720
 screen = pygame.display.set_mode((W, H))
 pygame.display.set_caption("События от мыши")
 
@@ -33,11 +33,13 @@ mouse_positions = []
 save_screen = None
 predicted = None
 
-screen.fill(WHITE)
+screen.fill('black')
 #background = pygame.image.load('assets/images/background.png').convert()
 #screen.blit(background, (0, 0))
 pygame.display.update()
 is_stopped = False
+square = pygame.Surface((150, 200))
+square.fill('white')
 
 
 def predict_digit(imgx):
@@ -60,10 +62,11 @@ while 1:
         if event.type == pygame.QUIT:
             exit()
 
-    screen.fill(WHITE)
+    screen.fill('#D9D9D9')
+    screen.blit(square, (200, 200))
     mouse_pos = pygame.mouse.get_pos()
-    if pygame.mouse.get_focused():
-        pygame.draw.circle(screen, 'black', mouse_pos, 10)
+    #if pygame.mouse.get_focused():
+        #pygame.draw.circle(square, 'black', mouse_pos, 10)
 
     pressed = pygame.mouse.get_pressed()
     for i in range(len(mouse_positions)):
@@ -72,16 +75,14 @@ while 1:
         if start_position is None:
             start_position = mouse_pos
         mouse_positions.append(mouse_pos)
-        width = mouse_pos[0] - start_position[0]
-        height = mouse_pos[1] - start_position[1]
         is_stopped = True
     elif is_stopped:
-        rect = pygame.Rect(0, 0, 600, 400)
+        rect = pygame.Rect(200, 200, 150, 200)
         sub = screen.subsurface(rect)
         pygame.image.save(sub, "screenshot.jpg")
         img_path = 'screenshot.jpg'
         predicted = predict_digit(img_path)  # число которое предсказано
-        screen.fill("white")
+        square.fill("white")
         print(predicted)
         mouse_positions.clear()
         start_position = None
