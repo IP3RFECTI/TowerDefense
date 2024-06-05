@@ -81,13 +81,12 @@ while 1:
         height = mouse_pos[1] - start_position[1]
         is_stopped = True
     elif is_stopped:
-        save_screen = pygame.image.save(screen, "screenshot.jpg")
-        img = cv2.imread('screenshot.jpg')
-        hsv = cv2.cvtColor(img, cv2.COLOR_BGRA2BGR)
-        thresh = cv2.inRange(hsv, hsv_min, hsv_max)
-        result = cv2.inRange(img, hsv_min, hsv_max)
-        cv2.imwrite('result.png', result)
-        predicted = predict_digit('screenshot.jpg')
+        rect = pygame.Rect(0, 0, 600, 400)
+        sub = screen.subsurface(rect)
+        pygame.image.save(sub, "screenshot.jpg")
+        img_path = 'screenshot.jpg'
+        predicted = predict_digit(img_path)  # число которое предсказано
+        screen.fill("white")
         print(predicted)
         mouse_positions.clear()
         start_position = None
