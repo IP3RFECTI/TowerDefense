@@ -59,6 +59,7 @@ def run():
     model = load_model('mnist_dense.h5')
     last_pos = (150, 200)
     draw_on = False
+    #fff
 
 
     while True:
