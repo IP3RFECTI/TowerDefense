@@ -39,11 +39,6 @@ screen.fill(WHITE)
 pygame.display.update()
 is_stopped = False
 
-# значения для определения цвета min-max
-pygame.mouse.set_visible(False)
-hsv_min = np.array((0, 150, 0), np.uint8)
-hsv_max = np.array((20, 255, 20), np.uint8)
-
 
 def predict_digit(imgx):
     img_path = imgx
@@ -68,11 +63,11 @@ while 1:
     screen.fill(WHITE)
     mouse_pos = pygame.mouse.get_pos()
     if pygame.mouse.get_focused():
-        pygame.draw.circle(screen, BLUE, mouse_pos, 10)
+        pygame.draw.circle(screen, 'black', mouse_pos, 10)
 
     pressed = pygame.mouse.get_pressed()
     for i in range(len(mouse_positions)):
-        pygame.draw.circle(screen, GREEN, mouse_positions[i], 15)
+        pygame.draw.circle(screen, 'black', mouse_positions[i], 15)
     if pressed[0]:
         if start_position is None:
             start_position = mouse_pos
