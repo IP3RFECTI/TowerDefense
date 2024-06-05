@@ -19,7 +19,8 @@ from PIL import Image
 import random
 model = load_model('mnist_dense.h5')
 import itertools
-# 123455 аааааааааааааааа
+squaree = pygame.Surface((150, 200))
+squaree.fill('#FFFFFF')
 def run():
     """run game"""
     pygame.init()
@@ -67,11 +68,13 @@ def run():
         controls.events(screen, main_menu, player, square, radius, myfont, model, last_pos, draw_on)
         controls.show_menu(screen, background, main_menu)
         player.create_player()
+
         if start:
+            screen.blit(squaree, (130, 100))
             controls.update(player, None, score)
             controls.update_catapult(catapult)
             controls.update_rocks(catapult.rocks, score)
-            screen.blit(square, (0, 0))
+
         elif show_leaders:
             leaderboard.draw_leaderboards()
         pygame.time.Clock().tick(60)

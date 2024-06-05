@@ -15,7 +15,7 @@ import numpy as np
 # Colors
 WHITE = (255, 255, 255)
 BLUE = (0, 0, 255)
-GREEN = (0, 255, 0)
+GREEN = (0, 0, 0)
 RED = (255, 0, 0)
 
 pygame.init()
@@ -87,10 +87,7 @@ while 1:
         thresh = cv2.inRange(hsv, hsv_min, hsv_max)
         result = cv2.inRange(img, hsv_min, hsv_max)
         cv2.imwrite('result.png', result)
-
         predicted = predict_digit('screenshot.jpg')
-        print(predicted)
-        predicted = predict_digit('result.png')
         print(predicted)
         mouse_positions.clear()
         start_position = None
