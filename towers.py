@@ -21,6 +21,7 @@ model = load_model('mnist_dense.h5')
 import itertools
 squaree = pygame.Surface((150, 200))
 squaree.fill('#FFFFFF')
+is_stopped = False
 def run():
     """run game"""
     pygame.init()
@@ -59,6 +60,11 @@ def run():
     model = load_model('mnist_dense.h5')
     last_pos = (150, 200)
     draw_on = False
+    start_position = end_position = None
+    mouse_positions = []
+    save_screen = None
+    predicted = None
+
     #fffff
 
 
@@ -74,12 +80,38 @@ def run():
             controls.update(player, None, score)
             controls.update_catapult(catapult)
             controls.update_rocks(catapult.rocks, score)
+            #распознование
+            draw(mouse_positions, screen, start_position, squaree)
 
         elif show_leaders:
             leaderboard.draw_leaderboards()
         pygame.time.Clock().tick(60)
         pygame.display.flip()
 
+def draw(mouse_positions, screen, start_position, squaree):
+    global is_stopped
+    mouse_pos = pygame.mouse.get_pos()
+    pressed = pygame.mouse.get_pressed()
+    for i in range(len(mouse_positions)):
+        pygame.draw.circle(screen, 'black', mouse_positions[i], 15)
+    if pressed[0]:
+        if start_position is None:
+            start_position = mouse_pos
+        mouse_positions.append(mouse_pos)
+        is_stopped = True
+    elif is_stopped:
+        rect = pygame.Rect(130, 100, 150, 200)
+        sub = screen.subsurface(rect)
+        pygame.image.save(sub, "screenshot.jpg")
+        img_path = 'screenshot.jpg'
+        predicted = predict_digit(img_path)  # число которое предсказано
+        squaree.fill("white")
+        print(predicted)
+        mouse_positions.clear()
+        print(mouse_positions)
+        start_position = None
+        is_stopped = False
+    pygame.display.update()
 
 def game_start(main_menu):
     """hide menu"""
