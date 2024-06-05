@@ -17,7 +17,6 @@ from tensorflow.keras.preprocessing import image
 import matplotlib.pyplot as plt
 from PIL import Image
 import random
-import pyglet
 model = load_model('mnist_dense.h5')
 import itertools
 # 123455 test
