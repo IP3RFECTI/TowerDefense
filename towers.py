@@ -124,6 +124,21 @@ def on_click():
     command = next(cycled_commands)
     return command()
 
+def predict_digit(imgx):
+    img_path = imgx
+    img = image.load_img(img_path, target_size=(28, 28), color_mode="grayscale")
+    # Преобразуем картинку в массив
+    x = image.img_to_array(img)
+    # Меняем форму массива в плоский вектор
+    x = x.reshape(1, 784)
+    # Инвертируем изображение
+    x = 255 - x
+    # Нормализуем изображение
+    x /= 255
+    prediction = model.predict(x)
+    res = np.argmax(prediction)
+    return (res)
+
 if __name__ == '__main__':
     """run"""
     run()
