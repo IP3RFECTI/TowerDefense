@@ -19,7 +19,7 @@ from PIL import Image
 import random
 model = load_model('mnist_dense.h5')
 import itertools
-# 123455 аааааааааааааааа
+
 def run():
     """run game"""
     pygame.init()
