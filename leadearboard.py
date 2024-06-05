@@ -16,7 +16,7 @@ class Leaderboard:
         self.check_file()
         self.font_Montserrat = pygame.font.Font('assets/fonts/Montserrat-ExtraBold.ttf', 30)
         self.screen = screen
-        self.clicked = True
+        self.clicked = False
 
     def write_new_record(self, new_record):
         """writes record"""

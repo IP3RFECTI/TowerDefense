@@ -17,9 +17,9 @@ from tensorflow.keras.preprocessing import image
 import matplotlib.pyplot as plt
 from PIL import Image
 import random
+import pyglet
 model = load_model('mnist_dense.h5')
-
-
+import itertools
 # 123455 test
 def run():
     """run game"""
@@ -38,9 +38,9 @@ def run():
     pygame.mixer.music.set_volume(0.15)
     pygame.mixer.music.play(-1)
     """Sounds"""
-    # For sounds
-    # sound1 = pg.mixer.Sound('boom.wav')
-    # sound2 = pg.mixer.Sound('one.ogg')
+    throw = pygame.mixer.Sound('assets/sounds/Throw.mp3')
+    touch = pygame.mixer.Sound('assets/sounds/Touch.mp3')
+    breaking = pygame.mixer.Sound('assets/sounds/Breaking.mp3')
     """objects"""
     player = Player(screen)
     catapult = Catapult(screen, width * 0.9, player)
@@ -86,7 +86,7 @@ def game_start(main_menu):
 def show_menu(main_menu, screen, leaderboard, settings):
     """start menu"""
     main_menu.delete_options()
-    leaderboard.leaderboard_clicked()
+    main_menu.append_option("Башня мага", lambda: passed())
     main_menu.append_option("Играть", lambda: game_start(main_menu))
     main_menu.append_option("Рекорды", lambda: show_leaders(main_menu, screen, leaderboard, settings))
     main_menu.append_option("Настройки", lambda: show_settings(main_menu, screen, leaderboard, settings))
@@ -97,15 +97,31 @@ def show_leaders(main_menu, screen, leaderboard, settings):
     """show leaderboards"""
     main_menu.delete_options()
     leaderboard.leaderboard_clicked()
-    main_menu.append_option("Назад", lambda: show_menu(main_menu, screen, leaderboard, settings))
-
+    main_menu.append_option("Рекорды", lambda: passed())
+    main_menu.append_option("Назад", lambda: [show_menu(main_menu, screen, leaderboard, settings), leaderboard.leaderboard_clicked()])
 
 def show_settings(main_menu, screen, leaderboard, settings):
     """show settings"""
     main_menu.delete_options()
     settings.settings_clicked()
+    main_menu.append_option("Настройки", lambda: passed())
+    main_menu.append_option("Музыка", lambda: on_click())
     main_menu.append_option("Назад", lambda: show_menu(main_menu, screen, leaderboard, settings))
 
+def turn_on_music():
+    pygame.mixer.music.unpause()
+def passed():
+    pass
+
+def turn_off_music():
+    pygame.mixer.music.pause()
+
+
+cycled_commands = itertools.cycle([turn_off_music, turn_on_music])
+
+def on_click():
+    command = next(cycled_commands)
+    return command()
 
 if __name__ == '__main__':
     """run"""

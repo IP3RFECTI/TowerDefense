@@ -1,5 +1,7 @@
 import pygame
 from rock import Rock
+pygame.init()
+throw = pygame.mixer.Sound('assets/sounds/Throw.mp3')
 
 class Catapult(pygame.sprite.Sprite):
     """enemy actions"""
@@ -9,7 +11,7 @@ class Catapult(pygame.sprite.Sprite):
         super(Catapult, self).__init__()
         self.screen = screen
         self.player = player
-        self.height = self.screen.get_height() * 0.6
+        self.height = self.screen.get_height() * 0.5
         # self.direction = direction
         self.spawn_point = spawn_point
         self.end_point = spawn_point / 10 * 9
@@ -47,6 +49,8 @@ class Catapult(pygame.sprite.Sprite):
         """catapult throws"""
         if not self.is_stopped:
             self.counter += 1
+            if self.counter == 3:
+                throw.play()
             if self.counter >= self.animation_length:
                 self.counter = 1
                 self.is_stopped = True
