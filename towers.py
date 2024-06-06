@@ -1,5 +1,6 @@
 import pygame
 import controls
+from pause import Pause
 from player import Player
 from score import Scores
 from stats import Stats
@@ -23,6 +24,9 @@ squaree = pygame.Surface((150, 200))
 squaree.fill('#FFFFFF')
 is_stopped = False
 #ff
+myfont = pygame.font.Font('assets/fonts/Molot.otf', 30)
+text_pause = myfont.render('Игра приостановлена', True, 'red')
+
 def run():
     """run game"""
     pygame.init()
@@ -56,7 +60,6 @@ def run():
     score = Scores(screen, stats)
     """AI surface"""
     square = pygame.Surface(main_res)
-    myfont = pygame.font.Font('assets/fonts/Molot.otf')
     radius = 5
     model = load_model('mnist_dense.h5')
     last_pos = (150, 200)
@@ -65,7 +68,7 @@ def run():
     mouse_positions = []
     save_screen = None
     predicted = None
-
+    i = 0
     #fffff
 
 
@@ -75,14 +78,44 @@ def run():
         controls.events(screen, main_menu, player, square, radius, myfont, model, last_pos, draw_on)
         controls.show_menu(screen, background, main_menu)
         player.create_player()
+        paused = False
+
+        def pausee(screen):
+            paused = True
+            while paused:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        quit()
+
+
+
+                keys = pygame.key.get_pressed()
+                if keys[pygame.K_SPACE]:
+                    paused = False
+
+                pygame.display.update()
+
+
+
+
 
         if start:
+
             screen.blit(squaree, (130, 100))
             controls.update(player, None, score)
             controls.update_catapult(catapult)
             controls.update_rocks(catapult.rocks, score)
             #распознование
             draw(mouse_positions, screen, start_position, squaree)
+            #пауза
+            keys = pygame.key.get_pressed()
+
+            if keys[pygame.K_ESCAPE]:
+                screen.blit(text_pause, (250, 145))
+                pausee(screen)
+
+
 
         elif show_leaders:
             leaderboard.draw_leaderboards()
@@ -119,6 +152,8 @@ def game_start(main_menu):
     main_menu.delete_options()
 
 
+
+
 def show_menu(main_menu, screen, leaderboard, settings):
     """start menu"""
     main_menu.delete_options()
@@ -136,6 +171,11 @@ def show_leaders(main_menu, screen, leaderboard, settings):
     main_menu.append_option("Рекорды", lambda: passed())
     main_menu.append_option("Назад", lambda: [show_menu(main_menu, screen, leaderboard, settings), leaderboard.leaderboard_clicked()])
 
+#def show_pause(main_menu, screen, leaderboard, settings, pause):
+ #   pause.pause_clicked()
+  #  main_menu.append_option("Пауза", lambda: passed())
+   # main_menu.append_option("Чтобы продолжить нажмите пробел", lambda: passed())
+    #main_menu.append_option("В главное меню", lambda: show_menu(main_menu, screen, leaderboard, settings))
 def show_settings(main_menu, screen, leaderboard, settings):
     """show settings"""
     main_menu.delete_options()
@@ -148,6 +188,8 @@ def turn_on_music():
     pygame.mixer.music.unpause()
 def passed():
     pass
+
+
 
 def turn_off_music():
     pygame.mixer.music.pause()
