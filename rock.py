@@ -39,6 +39,7 @@ class Rock(pygame.sprite.Sprite):
         self.rnd_number = str(random.randint(0, 9))
         self._ARIAL_50 = pygame.font.SysFont('arial', 50)
         self.rnd_number_surface = self._ARIAL_50.render(self.rnd_number, True, ('#FFFFFF'))
+        self.predicted = None
 
     def rock_update(self):
         """catapult rides"""
@@ -69,11 +70,6 @@ class Rock(pygame.sprite.Sprite):
         a = random.uniform(0.1, 1)
         if self.current_point_x >= self.width/2:
             self.current_point_y -= 1 * self.current_point_x ** 0.5*a
-        else:
-            self.is_destroyed = True
-            if not self.breaking_sound_played:
-                self.breaking.play()
-                self.breaking_sound_played = True
             # self.current_point_y += 1 * self.current_point_x ** 0.5*a
 
     def rock_animation_destruction(self):

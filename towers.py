@@ -10,6 +10,7 @@ from settings import Settings
 from catapult import Catapult
 import numpy as np
 import os
+import rock
 from tensorflow.keras.models import load_model
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 from tensorflow.keras import utils
@@ -106,7 +107,7 @@ def run():
             controls.update_catapult(catapult)
             controls.update_rocks(catapult.rocks, score)
             #распознование
-            draw(mouse_positions, screen, start_position, squaree)
+            draw(mouse_positions, screen, start_position, squaree, catapult)
             #пауза
             keys = pygame.key.get_pressed()
 
@@ -121,7 +122,7 @@ def run():
         pygame.time.Clock().tick(60)
         pygame.display.flip()
 
-def draw(mouse_positions, screen, start_position, squaree):
+def draw(mouse_positions, screen, start_position, squaree, catapult):
     global is_stopped
     mouse_pos = pygame.mouse.get_pos()
     pressed = pygame.mouse.get_pressed()
@@ -137,9 +138,9 @@ def draw(mouse_positions, screen, start_position, squaree):
         sub = screen.subsurface(rect)
         pygame.image.save(sub, "screenshot.jpg")
         img_path = 'screenshot.jpg'
-        predicted = predict_digitt(img_path)  # число которое предсказано
+        predicted = predict_digitt(img_path)
+        catapult.rocks[len(catapult.rocks)-1].predicted = predicted  # число которое предсказано
         squaree.fill("white")
-        print(predicted, 2222)
         mouse_positions.clear()
         start_position = None
         is_stopped = False
