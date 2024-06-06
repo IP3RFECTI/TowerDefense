@@ -37,7 +37,6 @@ class Leaderboard:
             for i in new_data:
                 file_writer.writerow([i[0], str(i[1])])
 
-
     def check_file(self):
         try:
             with open("assets/leaderboard/leaderboard.csv", encoding='utf-8') as r_file:
@@ -70,7 +69,6 @@ class Leaderboard:
                 draw = self.font_Montserrat.render(val, True, (100, 100, 255))
                 self.screen.blit(draw, (self.width*0.27, self.height*0.05 + (counter*self.rows_offset)))
             counter += 1
-
 
     def leaderboard_clicked(self):
         """start click check"""

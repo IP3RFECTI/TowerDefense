@@ -7,6 +7,7 @@ from random import randrange
 import numpy as np
 import os
 from tensorflow.keras.models import load_model
+
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 from tensorflow.keras import utils
 from tensorflow.keras.preprocessing import image
@@ -58,6 +59,7 @@ def show_menu(screen, background, main_menu):
     screen.blit(background, (0, 0))
     main_menu.draw(screen, screen.get_width() * 0.5, screen.get_height() * 0.2, 75)
 
+
 def update(player, rocks, score):
     """"screen update"""
     # rocks.draw_rocks()
@@ -69,29 +71,32 @@ def update_catapult(catapult):
     """"catapult update"""
     catapult.draw_catapult()
 
+
 def update_rocks(rocks, score):
     """"enemies update amd score add"""
     for rock in rocks:
         rock.rock_update()
     score.image_score()
 
+
 def game_over(screen, score, player, leaderboard, rocks, catapult):
     """update positions"""
     rocks.update()
     if pygame.sprite.spritecollideany(player, rocks):
-
         pass
     enemies_check(screen, rocks)
 
 
 def enemies_check(screen, enemies):
-    """alliens check"""
+    """enemies check"""
     screen_rect = screen.get_rect()
     for enemy in enemies.sprites():
         break
 
+
 def delete_rock(rock):
     del rock
+
 
 def predict_digit(imgx, model):
     img_path = imgx
@@ -108,6 +113,7 @@ def predict_digit(imgx, model):
     res = np.argmax(prediction)
     print(res)
     return (res)
+
 
 def roundline(canvas, color, start, end, radius=1):
     Xaxis = end[0] - start[0]

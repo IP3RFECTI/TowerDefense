@@ -11,14 +11,17 @@ from catapult import Catapult
 import numpy as np
 import os
 from tensorflow.keras.models import load_model
+
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 from tensorflow.keras import utils
 from tensorflow.keras.preprocessing import image
 import matplotlib.pyplot as plt
 from PIL import Image
 import random
+
 model = load_model('mnist_dense.h5')
 import itertools
+
 
 def run():
     """run game"""
@@ -60,7 +63,6 @@ def run():
     draw_on = False
     #fffff
 
-
     while True:
         start = main_menu.start_clicked()
         show_leaders = leaderboard.clicked
@@ -98,7 +100,9 @@ def show_leaders(main_menu, screen, leaderboard, settings):
     main_menu.delete_options()
     leaderboard.leaderboard_clicked()
     main_menu.append_option("Рекорды", lambda: passed())
-    main_menu.append_option("Назад", lambda: [show_menu(main_menu, screen, leaderboard, settings), leaderboard.leaderboard_clicked()])
+    main_menu.append_option("Назад", lambda: [show_menu(main_menu, screen, leaderboard, settings),
+                                              leaderboard.leaderboard_clicked()])
+
 
 def show_settings(main_menu, screen, leaderboard, settings):
     """show settings"""
@@ -108,10 +112,14 @@ def show_settings(main_menu, screen, leaderboard, settings):
     main_menu.append_option("Музыка", lambda: on_click())
     main_menu.append_option("Назад", lambda: show_menu(main_menu, screen, leaderboard, settings))
 
+
 def turn_on_music():
     pygame.mixer.music.unpause()
+
+
 def passed():
     pass
+
 
 def turn_off_music():
     pygame.mixer.music.pause()
@@ -119,24 +127,11 @@ def turn_off_music():
 
 cycled_commands = itertools.cycle([turn_off_music, turn_on_music])
 
+
 def on_click():
     command = next(cycled_commands)
     return command()
 
-def predict_digit(imgx):
-    img_path = imgx
-    img = image.load_img(img_path, target_size=(28, 28), color_mode="grayscale")
-    # Преобразуем картинку в массив
-    x = image.img_to_array(img)
-    # Меняем форму массива в плоский вектор
-    x = x.reshape(1, 784)
-    # Инвертируем изображение
-    x = 255 - x
-    # Нормализуем изображение
-    x /= 255
-    prediction = model.predict(x)
-    res = np.argmax(prediction)
-    return (res)
 
 if __name__ == '__main__':
     """run"""
