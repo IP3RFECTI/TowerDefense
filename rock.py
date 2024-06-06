@@ -1,7 +1,10 @@
 import pygame
 import random
 pygame.init()
-
+# if self.predicted == self.rnd_number:
+#     self.is_destroyed = True
+#     self.breaking.play()
+#     self.breaking_sound_played = True
 class Rock(pygame.sprite.Sprite):
     def __init__(self, screen, spawn_point, player):
         """start position"""
@@ -43,6 +46,10 @@ class Rock(pygame.sprite.Sprite):
 
     def rock_update(self):
         """catapult rides"""
+        if self.predicted == int(self.rnd_number):
+            self.is_destroyed = True
+            self.breaking.play()
+            self.breaking_sound_played = True
         if self.current_point_x >= self.end_point_x:
             self.current_point_x -= self.current_point_x*0.05   # x update
             if self.is_destroyed:
@@ -70,7 +77,7 @@ class Rock(pygame.sprite.Sprite):
         a = random.uniform(0.1, 1)
         if self.current_point_x >= self.width/2:
             self.current_point_y -= 1 * self.current_point_x ** 0.5*a
-            # self.current_point_y += 1 * self.current_point_x ** 0.5*a
+
 
     def rock_animation_destruction(self):
         """rock animation destruction"""
