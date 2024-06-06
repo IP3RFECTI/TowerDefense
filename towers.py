@@ -1,6 +1,5 @@
 import pygame
 import controls
-from pause import Pause
 from player import Player
 from score import Scores
 from stats import Stats
