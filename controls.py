@@ -34,16 +34,6 @@ def events(screen, main_menu, player, square, radius, myfont, model, last_pos, d
             # Draw a single circle wheneven mouse is clicked down.
             pygame.draw.circle(square, 'black', event.pos, radius)
             draw_on = True
-        elif event.type == pygame.MOUSEBUTTONUP:
-            draw_on = False
-            rect = pygame.Rect(0, 0, 150, 200)  # указать область где белый фон и он будет его фоткать
-            sub = square.subsurface(rect)
-            pygame.image.save(sub, "screenshot.jpg")
-            img_path = 'screenshot.jpg'
-            predicted = predict_digit(img_path, model)  # число которое предсказано
-            text_surface = myfont.render(f'{predicted}', False, 'red')
-            square.fill("white")
-            square.blit(text_surface, (0, 100))
         elif event.type == pygame.MOUSEMOTION:
             if draw_on:
                 pygame.draw.circle(square, 'black', event.pos, radius)
@@ -93,21 +83,7 @@ def enemies_check(screen, enemies):
 def delete_rock(rock):
     del rock
 
-def predict_digit(imgx, model):
-    img_path = imgx
-    img = image.load_img(img_path, target_size=(28, 28), color_mode="grayscale")
-    # Преобразуем картинку в массив
-    x = image.img_to_array(img)
-    # Меняем форму массива в плоский вектор
-    x = x.reshape(1, 784)
-    # Инвертируем изображение
-    x = 255 - x
-    # Нормализуем изображение
-    x /= 255
-    prediction = model.predict(x)
-    res = np.argmax(prediction)
-    print(res)
-    return (res)
+
 
 def roundline(canvas, color, start, end, radius=1):
     Xaxis = end[0] - start[0]
@@ -117,5 +93,4 @@ def roundline(canvas, color, start, end, radius=1):
         x = int(start[0] + float(i) / dist * Xaxis)
         y = int(start[1] + float(i) / dist * Yaxis)
         pygame.draw.circle(canvas, color, (x, y), radius)
-
 

@@ -137,11 +137,10 @@ def draw(mouse_positions, screen, start_position, squaree):
         sub = screen.subsurface(rect)
         pygame.image.save(sub, "screenshot.jpg")
         img_path = 'screenshot.jpg'
-        predicted = predict_digit(img_path)  # число которое предсказано
+        predicted = predict_digitt(img_path)  # число которое предсказано
         squaree.fill("white")
-        print(predicted)
+        print(predicted, 2222)
         mouse_positions.clear()
-        print(mouse_positions)
         start_position = None
         is_stopped = False
     pygame.display.update()
@@ -200,7 +199,7 @@ def on_click():
     command = next(cycled_commands)
     return command()
 
-def predict_digit(imgx):
+def predict_digitt(imgx):
     img_path = imgx
     img = image.load_img(img_path, target_size=(28, 28), color_mode="grayscale")
     # Преобразуем картинку в массив
