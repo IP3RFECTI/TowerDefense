@@ -35,7 +35,7 @@ class Catapult(pygame.sprite.Sprite):
 
         self.rocks = []
 
-
+#fff
 
     def draw_catapult(self):
         """catapult rides"""
