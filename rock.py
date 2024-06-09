@@ -46,6 +46,7 @@ class Rock(pygame.sprite.Sprite):
 
     def rock_update(self):
         """catapult rides"""
+        self.breaking_sound_played = False
         if self.predicted == int(self.rnd_number):
             self.is_destroyed = True
             self.breaking.play()
