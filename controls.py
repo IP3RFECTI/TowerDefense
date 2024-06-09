@@ -13,6 +13,7 @@ from tensorflow.keras.preprocessing import image
 import matplotlib.pyplot as plt
 from PIL import Image
 import random
+model = load_model('mnist_dense.h5')
 
 
 def events(screen, main_menu, player, square, radius, myfont, model, last_pos, draw_on, catapult, score):
@@ -36,11 +37,16 @@ def events(screen, main_menu, player, square, radius, myfont, model, last_pos, d
             draw_on = True
         elif event.type == pygame.MOUSEBUTTONUP:
             draw_on = False
-            rect = pygame.Rect(0, 0, 150, 200)  # указать область где белый фон и он будет его фоткать
+            rect = pygame.Rect(130, 100, 150, 200)  # указать область где белый фон и он будет его фоткать
             sub = square.subsurface(rect)
             pygame.image.save(sub, "screenshot.jpg")
             img_path = 'screenshot.jpg'
-            predicted = predict_digit(img_path, model, catapult)  # число которое предсказано
+            predicted = predict_digit(img_path)  # число которое предсказано
+            print("predicted2", predicted)
+            for rock in catapult.rocks:
+                print("rnd_number2", rock.rnd_number)
+                if int(rock.rnd_number) == int(predicted):
+                    catapult.rocks.remove(rock)
             text_surface = myfont.render(f'{predicted}', False, 'red')
             square.fill("white")
             square.blit(text_surface, (0, 100))
@@ -109,6 +115,21 @@ def predict_digit(imgx, model, catapult):
         print("rnd_number2", rock.rnd_number)
         if int(rock.rnd_number) == int(res):
             catapult.rocks.remove(rock)
+    return (res)
+
+def predict_digit(imgx):
+    img_path = imgx
+    img = image.load_img(img_path, target_size=(28, 28), color_mode="grayscale")
+    # Преобразуем картинку в массив
+    x = image.img_to_array(img)
+    # Меняем форму массива в плоский вектор
+    x = x.reshape(1, 784)
+    # Инвертируем изображение
+    x = 255 - x
+    # Нормализуем изображение
+    x /= 255
+    prediction = model.predict(x)
+    res = np.argmax(prediction)
     return (res)
 
 
