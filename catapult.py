@@ -1,7 +1,6 @@
 import pygame
 from rock import Rock
-pygame.init()
-throw = pygame.mixer.Sound('assets/sounds/Throw.mp3')
+
 
 class Catapult(pygame.sprite.Sprite):
     """enemy actions"""
@@ -12,26 +11,32 @@ class Catapult(pygame.sprite.Sprite):
         self.screen = screen
         self.player = player
         self.height = self.screen.get_height() * 0.5
-        # self.direction = direction
         self.spawn_point = spawn_point
         self.end_point = spawn_point / 10 * 9
         self.catapult_image = pygame.transform.flip \
             (pygame.image.load('assets/animations/catapult_throwing/1.png'), 1, 0)
-        """animation"""
+        # Sounds
+        self.throw_sound = pygame.mixer.Sound('assets/sounds/Throw.mp3')
+        # Animation
         self.frame_images = []
-        for i in range(1, 9):
+        for i in range(1, 10):
             self.frame_images.append(
                 pygame.transform.flip(pygame.image.load(f"assets/animations/catapult_throwing/{i}.png"), 1, 0))
+        self.throw_index_len = len(self.frame_images)
         self.is_stopped = False
-        self.counter = 0
-        self.animation_length = len(self.frame_images)
-        self.animation_counter = 7
+        self.rock_created = False
 
+        self.FPS = 60
         self.clock = pygame.time.Clock()
-        self.timer_counter = 0
+        self.cooldown_seconds = 6
+        self.cooldown_timer = self.cooldown_seconds * self.clock.tick(self.FPS)
+        self.cooldown_tick = self.cooldown_timer // self.clock.tick(self.FPS)
+        self.cooldown_counter = 0
 
-        self.seconds = 6    # time between catapult animation
-        self.cooldown_timer = self.seconds * self.clock.tick(60)    # animation speed
+        self.throw_animation_speed_seconds = 4  # more means slower
+        self.throw_animation_speed = (self.throw_animation_speed_seconds * self.clock.tick(self.FPS))
+        self.throw_animation_tick = self.throw_animation_speed // self.throw_index_len
+        self.throw_animation_counter = 0
 
         self.rocks = []
 
@@ -46,29 +51,37 @@ class Catapult(pygame.sprite.Sprite):
     def catapult_animation(self):
         """catapult throws"""
         if not self.is_stopped:
-            self.counter += 1
-            if self.counter == 3:
-                throw.play()
-            if self.counter >= self.animation_length:
-                self.counter = 1
-                self.is_stopped = True
+            if self.throw_animation_counter // self.throw_animation_tick == 6 and not self.rock_created:
                 self.create_rock()
-            self.screen.blit(self.frame_images[self.counter], (self.spawn_point, self.height))
+                self.throw_sound.play()
+                self.rock_created = True
+            if self.throw_animation_counter // self.throw_animation_tick < self.throw_index_len:
+                self.screen.blit(self.frame_images[self.throw_animation_counter // self.throw_animation_tick], (self.spawn_point, self.height))
+            else:
+                self.is_stopped = True
+                self.screen.blit(self.catapult_image, (self.spawn_point, self.height))
+            if self.cooldown_counter == self.cooldown_timer:
+                self.is_stopped = True
+                self.cooldown_counter = 0
+            if self.throw_animation_counter > self.throw_animation_speed:
+                self.throw_animation_counter = 0
+                self.rock_created = False
+
             pygame.display.flip()
-            self.clock.tick(self.animation_counter)
+            self.clock.tick(self.FPS)
+            self.throw_animation_counter += 1
+            self.cooldown_counter += 1
         else:
-            self.animation_is_stopped()
+            self.is_stopped = self.animation_is_stopped()
             self.screen.blit(self.catapult_image, (self.spawn_point, self.height))
             pygame.display.flip()
-            self.clock.tick(self.cooldown_timer)
+            self.clock.tick(self.FPS)
 
     def animation_is_stopped(self):
-        if self.timer_counter <= self.cooldown_timer:
-            self.timer_counter += 1
-            # print(self.timer_counter)
+        if self.cooldown_counter <= self.cooldown_timer:
+            self.cooldown_counter += 1
             return True
-        self.is_stopped = False
-        self.timer_counter = 0
+        self.cooldown_counter = 0
         return False
 
     def create_rock(self):

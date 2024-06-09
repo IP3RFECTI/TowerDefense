@@ -15,7 +15,7 @@ from PIL import Image
 import random
 
 
-def events(screen, main_menu, player, square, radius, myfont, model, last_pos, draw_on):
+def events(screen, main_menu, player, square, radius, myfont, model, last_pos, draw_on, catapult, score, is_paused):
     """events processes"""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -41,6 +41,7 @@ def events(screen, main_menu, player, square, radius, myfont, model, last_pos, d
             pygame.image.save(sub, "screenshot.jpg")
             img_path = 'screenshot.jpg'
             predicted = predict_digit(img_path, model)  # число которое предсказано
+            check_rocks(catapult.rocks, score, predicted)
             text_surface = myfont.render(f'{predicted}', False, 'red')
             square.fill("white")
             square.blit(text_surface, (0, 100))
@@ -51,7 +52,6 @@ def events(screen, main_menu, player, square, radius, myfont, model, last_pos, d
                 last_pos = event.pos
         elif event.type == pygame.USEREVENT:
             pass
-
 
 def show_menu(screen, background, main_menu):
     """show main menu"""
@@ -69,19 +69,25 @@ def update_catapult(catapult):
     """"catapult update"""
     catapult.draw_catapult()
 
-def update_rocks(rocks, score):
+def update_rocks(rocks):
     """"enemies update amd score add"""
     for rock in rocks:
-        rock.rock_update()
-    score.image_score()
+        rock.update()
+def check_rocks(rocks, score, predicted):
+    print("predicted", predicted)
+    for rock in rocks:
+        print("rnd_number", rock.rnd_number)
+        if int(rock.rnd_number) == int(predicted):
+            rocks.remove(rock)
+            # +100 score
 
 def game_over(screen, score, player, leaderboard, rocks, catapult):
     """update positions"""
-    rocks.update()
-    if pygame.sprite.spritecollideany(player, rocks):
-
-        pass
-    enemies_check(screen, rocks)
+    # rocks.update()
+    # if pygame.sprite.spritecollideany(player, rocks):
+    #     pass
+    # enemies_check(screen, rocks)
+    pass
 
 
 def enemies_check(screen, enemies):
@@ -90,23 +96,16 @@ def enemies_check(screen, enemies):
     for enemy in enemies.sprites():
         break
 
-def delete_rock(rock):
-    del rock
-
 def predict_digit(imgx, model):
     img_path = imgx
     img = image.load_img(img_path, target_size=(28, 28), color_mode="grayscale")
-    # Преобразуем картинку в массив
     x = image.img_to_array(img)
-    # Меняем форму массива в плоский вектор
     x = x.reshape(1, 784)
-    # Инвертируем изображение
     x = 255 - x
-    # Нормализуем изображение
     x /= 255
     prediction = model.predict(x)
     res = np.argmax(prediction)
-    print(res)
+    # print(res)
     return (res)
 
 def roundline(canvas, color, start, end, radius=1):
@@ -117,5 +116,4 @@ def roundline(canvas, color, start, end, radius=1):
         x = int(start[0] + float(i) / dist * Xaxis)
         y = int(start[1] + float(i) / dist * Yaxis)
         pygame.draw.circle(canvas, color, (x, y), radius)
-
 
