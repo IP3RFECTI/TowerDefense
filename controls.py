@@ -42,7 +42,7 @@ def events(screen, main_menu, player, square, radius, myfont, model, last_pos, d
                 last_pos = event.pos
         elif event.type == pygame.USEREVENT:
             pass
-
+#fff
 
 def show_menu(screen, background, main_menu):
     """show main menu"""
