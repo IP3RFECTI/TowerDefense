@@ -61,7 +61,6 @@ class Rock(pygame.sprite.Sprite):
                 self.rock_animation()
             elif self.is_destroyed:
                 self.rock_animation_destruction()
-                print("Rock", self.rnd_number)
         else:
             if not self.breaking_sound_played:
                 self.breaking.play()

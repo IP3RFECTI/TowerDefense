@@ -15,7 +15,7 @@ from PIL import Image
 import random
 
 
-def events(screen, main_menu, player, square, radius, myfont, model, last_pos, draw_on, catapult, score, is_paused):
+def events(screen, main_menu, player, square, radius, myfont, model, last_pos, draw_on, catapult, score):
     """events processes"""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -41,7 +41,7 @@ def events(screen, main_menu, player, square, radius, myfont, model, last_pos, d
             pygame.image.save(sub, "screenshot.jpg")
             img_path = 'screenshot.jpg'
             predicted = predict_digit(img_path, model)  # число которое предсказано
-            check_rocks(catapult.rocks, score, predicted)
+            check_rocks(catapult, score, predicted)
             text_surface = myfont.render(f'{predicted}', False, 'red')
             square.fill("white")
             square.blit(text_surface, (0, 100))
@@ -73,21 +73,12 @@ def update_rocks(rocks):
     """"enemies update amd score add"""
     for rock in rocks:
         rock.update()
-def check_rocks(rocks, score, predicted):
-    print("predicted", predicted)
-    for rock in rocks:
+def check_rocks(catapult, score, predicted):
+    for rock in catapult.rocks:
         print("rnd_number", rock.rnd_number)
         if int(rock.rnd_number) == int(predicted):
-            rocks.remove(rock)
+            catapult.rocks.remove(rock)
             # +100 score
-
-def game_over(screen, score, player, leaderboard, rocks, catapult):
-    """update positions"""
-    # rocks.update()
-    # if pygame.sprite.spritecollideany(player, rocks):
-    #     pass
-    # enemies_check(screen, rocks)
-    pass
 
 
 def enemies_check(screen, enemies):
@@ -105,8 +96,8 @@ def predict_digit(imgx, model):
     x /= 255
     prediction = model.predict(x)
     res = np.argmax(prediction)
-    # print(res)
-    return (res)
+    print("predicted", res)
+    return res
 
 def roundline(canvas, color, start, end, radius=1):
     Xaxis = end[0] - start[0]

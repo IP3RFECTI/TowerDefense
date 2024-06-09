@@ -1,7 +1,5 @@
 import time
-
 import pygame
-
 import catapult
 import controls
 from player import Player
@@ -81,7 +79,7 @@ def run():
     while True:
         start = main_menu.start_clicked()
         show_leaders = leaderboard.clicked
-        controls.events(screen, main_menu, player, square, radius, myfont, model, last_pos, draw_on, catapult, score, is_paused)
+        controls.events(screen, main_menu, player, square, radius, myfont, model, last_pos, draw_on, catapult, score)
         controls.show_menu(screen, background, main_menu)
         if not start:
             player.draw_player()
@@ -120,12 +118,8 @@ def draw(mouse_positions, screen, start_position, squaree, catapult):
         rect = pygame.Rect(130, 100, 150, 200)
         sub = screen.subsurface(rect)
         pygame.image.save(sub, "screenshot.jpg")
-        img_path = 'screenshot.jpg'
-        predicted = controls.predict_digit(img_path, model)  # число которое предсказано
-        for rock in catapult.rocks:
-            rock.predicted = predicted
+        img_path = 'screenshot.jpg' # число которое предсказано
         squaree.fill("white")
-        # print(predicted)
         mouse_positions.clear()
         start_position = None
         is_stopped = False
@@ -156,11 +150,6 @@ def show_leaders(main_menu, screen, leaderboard, settings):
                                               leaderboard.leaderboard_clicked()])
 
 
-#def show_pause(main_menu, screen, leaderboard, settings, pause):
-#   pause.pause_clicked()
-#  main_menu.append_option("Пауза", lambda: passed())
-# main_menu.append_option("Чтобы продолжить нажмите пробел", lambda: passed())
-#main_menu.append_option("В главное меню", lambda: show_menu(main_menu, screen, leaderboard, settings))
 def show_settings(main_menu, screen, leaderboard, settings):
     """show settings"""
     main_menu.delete_options()
@@ -194,6 +183,9 @@ def pause(is_paused):
         return True
     else:
         return False
+
+def game_over():
+    start = False
 
 
 if __name__ == '__main__':
