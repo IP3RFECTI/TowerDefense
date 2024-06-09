@@ -21,7 +21,6 @@ import matplotlib.pyplot as plt
 from PIL import Image
 import random
 
-model = load_model('mnist_dense.h5')
 import itertools
 
 squaree = pygame.Surface((150, 200))

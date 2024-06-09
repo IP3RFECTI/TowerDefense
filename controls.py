@@ -40,8 +40,7 @@ def events(screen, main_menu, player, square, radius, myfont, model, last_pos, d
             sub = square.subsurface(rect)
             pygame.image.save(sub, "screenshot.jpg")
             img_path = 'screenshot.jpg'
-            predicted = predict_digit(img_path, model)  # число которое предсказано
-            check_rocks(catapult, score, predicted)
+            predicted = predict_digit(img_path, model, catapult)  # число которое предсказано
             text_surface = myfont.render(f'{predicted}', False, 'red')
             square.fill("white")
             square.blit(text_surface, (0, 100))
@@ -73,13 +72,6 @@ def update_rocks(rocks):
     """"enemies update amd score add"""
     for rock in rocks:
         rock.update()
-def check_rocks(catapult, score, predicted):
-    for rock in catapult.rocks:
-        print("rnd_number", rock.rnd_number)
-        if int(rock.rnd_number) == int(predicted):
-            catapult.rocks.remove(rock)
-            # +100 score
-
 
 def enemies_check(screen, enemies):
     """alliens check"""
@@ -87,7 +79,7 @@ def enemies_check(screen, enemies):
     for enemy in enemies.sprites():
         break
 
-def predict_digit(imgx, model):
+def predict_digit(imgx, model, catapult, score):
     img_path = imgx
     img = image.load_img(img_path, target_size=(28, 28), color_mode="grayscale")
     x = image.img_to_array(img)
@@ -97,7 +89,28 @@ def predict_digit(imgx, model):
     prediction = model.predict(x)
     res = np.argmax(prediction)
     print("predicted", res)
+    for rock in catapult.rocks:
+        print("rnd_number", rock.rnd_number)
+        if int(rock.rnd_number) == int(res):
+            catapult.rocks.remove(rock)
     return res
+
+def predict_digit(imgx, model, catapult):
+    img_path = imgx
+    img = image.load_img(img_path, target_size=(28, 28), color_mode="grayscale")
+    x = image.img_to_array(img)
+    x = x.reshape(1, 784)
+    x = 255 - x
+    x /= 255
+    prediction = model.predict(x)
+    res = np.argmax(prediction)
+    print("predicted2", res)
+    for rock in catapult.rocks:
+        print("rnd_number2", rock.rnd_number)
+        if int(rock.rnd_number) == int(res):
+            catapult.rocks.remove(rock)
+    return (res)
+
 
 def roundline(canvas, color, start, end, radius=1):
     Xaxis = end[0] - start[0]
