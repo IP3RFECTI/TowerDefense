@@ -145,7 +145,7 @@ def draw(mouse_positions, screen, start_position, squaree, catapult):
         start_position = None
         is_stopped = False
     pygame.display.update()
-
+#fff
 def game_start(main_menu):
     """hide menu"""
     main_menu.delete_options()
