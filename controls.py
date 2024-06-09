@@ -99,38 +99,7 @@ def predict_digit(imgx, model, catapult, score):
         print("rnd_number", rock.rnd_number)
         if int(rock.rnd_number) == int(res):
             catapult.rocks.remove(rock)
-    return res
-
-def predict_digit(imgx, model, catapult):
-    img_path = imgx
-    img = image.load_img(img_path, target_size=(28, 28), color_mode="grayscale")
-    x = image.img_to_array(img)
-    x = x.reshape(1, 784)
-    x = 255 - x
-    x /= 255
-    prediction = model.predict(x)
-    res = np.argmax(prediction)
-    print("predicted2", res)
-    for rock in catapult.rocks:
-        print("rnd_number2", rock.rnd_number)
-        if int(rock.rnd_number) == int(res):
-            catapult.rocks.remove(rock)
-    return (res)
-
-def predict_digit(imgx):
-    img_path = imgx
-    img = image.load_img(img_path, target_size=(28, 28), color_mode="grayscale")
-    # Преобразуем картинку в массив
-    x = image.img_to_array(img)
-    # Меняем форму массива в плоский вектор
-    x = x.reshape(1, 784)
-    # Инвертируем изображение
-    x = 255 - x
-    # Нормализуем изображение
-    x /= 255
-    prediction = model.predict(x)
-    res = np.argmax(prediction)
-    return (res)
+    # return res
 
 
 def roundline(canvas, color, start, end, radius=1):
