@@ -13,22 +13,17 @@ from catapult import Catapult
 import numpy as np
 import os
 from tensorflow.keras.models import load_model
-
-os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 from tensorflow.keras import utils
 from tensorflow.keras.preprocessing import image
 import matplotlib.pyplot as plt
 from PIL import Image
 import random
-
 import itertools
-
-squaree = pygame.Surface((150, 200))
-squaree.fill('#FFFFFF')
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 is_stopped = False
-#ff
 myfont = pygame.font.Font('assets/fonts/Molot.otf', 30)
 text_pause = myfont.render('Игра приостановлена', True, 'red')
+model = load_model('mnist_dense.h5')
 
 
 def run():
@@ -71,9 +66,8 @@ def run():
     draw_on = False
     start_position = end_position = None
     mouse_positions = []
-    save_screen = None
-    predicted = None
-    i = 0
+    white_square = pygame.Surface((150, 200))
+    white_square.fill('#FFFFFF')
 
     while True:
         start = main_menu.start_clicked()
@@ -84,7 +78,7 @@ def run():
             player.draw_player()
         keys = pygame.key.get_pressed()
         if start:
-            screen.blit(squaree, (130, 100))
+            screen.blit(white_square, (130, 100))
             controls.update(player, None, score)
             if keys[pygame.K_ESCAPE]:
                 time.sleep(0.5)
@@ -93,7 +87,7 @@ def run():
                 controls.update_catapult(catapult)
                 controls.update_rocks(catapult.rocks)
                 player.draw_player_hp()
-                draw(mouse_positions, screen, start_position, squaree, catapult)
+                draw(mouse_positions, screen, start_position, white_square, catapult)
             else:
                 screen.blit(text_pause, (250, 145))
         elif show_leaders:

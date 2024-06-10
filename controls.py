@@ -37,16 +37,11 @@ def events(screen, main_menu, player, square, radius, myfont, model, last_pos, d
             draw_on = True
         elif event.type == pygame.MOUSEBUTTONUP:
             draw_on = False
-            rect = pygame.Rect(130, 100, 150, 200)  # указать область где белый фон и он будет его фоткать
+            rect = pygame.Rect(130, 100, 150, 200)  # указать область где белый фон и он будет его фоткать 0, 0, 150, 200
             sub = square.subsurface(rect)
             pygame.image.save(sub, "screenshot.jpg")
             img_path = 'screenshot.jpg'
-            predicted = predict_digit(img_path)  # число которое предсказано
-            print("predicted2", predicted)
-            for rock in catapult.rocks:
-                print("rnd_number2", rock.rnd_number)
-                if int(rock.rnd_number) == int(predicted):
-                    catapult.rocks.remove(rock)
+            predicted = predict_digit(img_path, model, catapult, score)  # число которое предсказано 130, 100, 150, 200
             text_surface = myfont.render(f'{predicted}', False, 'red')
             square.fill("white")
             square.blit(text_surface, (0, 100))
@@ -99,6 +94,8 @@ def predict_digit(imgx, model, catapult, score):
         print("rnd_number", rock.rnd_number)
         if int(rock.rnd_number) == int(res):
             catapult.rocks.remove(rock)
+            score.stats.score += 100
+    # time.sleep(1)
     # return res
 
 
