@@ -31,20 +31,15 @@ def events(screen, main_menu, player, square, radius, myfont, model, last_pos, d
                     main_menu.select()
                     catapult = Catapult(screen, screen.get_width(), player)
         elif event.type == pygame.MOUSEBUTTONDOWN:
-            # Selecting Color Code
-            # Draw a single circle wheneven mouse is clicked down.
             pygame.draw.circle(square, 'black', event.pos, radius)
             draw_on = True
         elif event.type == pygame.MOUSEBUTTONUP:
+            if draw_on:
+                pygame.image.save(square.subsurface(pygame.Rect(130, 100, 150, 200)), "screenshot.jpg")
+                img_path = "screenshot.jpg"
+                predict_digit(img_path, model, catapult, score)
+                square.fill("white")
             draw_on = False
-            rect = pygame.Rect(130, 100, 150, 200)  # указать область где белый фон и он будет его фоткать 0, 0, 150, 200
-            sub = square.subsurface(rect)
-            pygame.image.save(sub, "screenshot.jpg")
-            img_path = 'screenshot.jpg'
-            predicted = predict_digit(img_path, model, catapult, score)  # число которое предсказано 130, 100, 150, 200
-            text_surface = myfont.render(f'{predicted}', False, 'red')
-            square.fill("white")
-            square.blit(text_surface, (0, 100))
         elif event.type == pygame.MOUSEMOTION:
             if draw_on:
                 pygame.draw.circle(square, 'black', event.pos, radius)
@@ -95,6 +90,7 @@ def predict_digit(imgx, model, catapult, score):
         if int(rock.rnd_number) == int(res):
             catapult.rocks.remove(rock)
             score.stats.score += 100
+    score.image_score()
     # time.sleep(1)
     # return res
 

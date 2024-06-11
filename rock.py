@@ -1,9 +1,5 @@
 import pygame
 import random
-import player
-
-pygame.init()
-
 
 class Rock(pygame.sprite.Sprite):
     def __init__(self, screen, spawn_point, player):

@@ -9,8 +9,6 @@ import matplotlib.pyplot as plt
 from PIL import Image
 import random
 model = load_model('mnist_dense.h5')
-import cv2
-import numpy as np
 
 # Colors
 WHITE = (255, 255, 255)
@@ -38,8 +36,8 @@ screen.fill('black')
 #screen.blit(background, (0, 0))
 pygame.display.update()
 is_stopped = False
-square = pygame.Surface((150, 200))
-square.fill('white')
+white_square = pygame.Surface((150, 200))
+white_square.fill('white')
 
 
 def predict_digit(imgx):
@@ -62,8 +60,9 @@ while 1:
         if event.type == pygame.QUIT:
             exit()
 
+    pygame.display.update()
     screen.fill('#D9D9D9')
-    screen.blit(square, (200, 200))
+    screen.blit(white_square, (200, 200))
     mouse_pos = pygame.mouse.get_pos()
     #if pygame.mouse.get_focused():
         #pygame.draw.circle(square, 'black', mouse_pos, 10)
@@ -82,11 +81,14 @@ while 1:
         pygame.image.save(sub, "screenshot.jpg")
         img_path = 'screenshot.jpg'
         predicted = predict_digit(img_path)  # число которое предсказано
-        square.fill("white")
-        print(predicted)
+        white_square.fill("white")
         mouse_positions.clear()
         start_position = None
         is_stopped = False
+        print(predicted)
 
-    pygame.display.update()
 
+
+if __name__ == '__main__':
+    """run"""
+    run()

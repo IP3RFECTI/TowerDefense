@@ -31,4 +31,5 @@ class Scores:
     def show_score(self):
         """score output"""
         self.screen.blit(self.score_img, self.score_rect)
+        pygame.display.update()
         # self.lifes.draw(self.screen)
