@@ -116,6 +116,8 @@ def draw(mouse_positions, screen, start_position, squaree, catapult):
         mouse_positions.clear()
         start_position = None
         is_stopped = False
+
+
     pygame.display.update()
 
 
@@ -148,25 +150,36 @@ def show_settings(main_menu, screen, leaderboard, settings):
     """show settings"""
     main_menu.delete_options()
     settings.settings_clicked()
+    img = pygame.image.load('assets/images/On.png')
+    screen.blit(img, (500, 100))
     main_menu.append_option("Настройки", lambda: None)
-    main_menu.append_option("Музыка", lambda: on_click())
+    main_menu.append_option("Музыка", lambda: on_click(screen))
     main_menu.append_option("Назад", lambda: show_menu(main_menu, screen, leaderboard, settings))
 
 
-def turn_on_music():
+
+
+
+def turn_on_music(screen):
     pygame.mixer.music.unpause()
+    img = pygame.image.load('assets/images/On.png')
+    screen.blit(img, (560, 135))
+    pygame.display.update()
 
 
-def turn_off_music():
+def turn_off_music(screen):
     pygame.mixer.music.pause()
+    img = pygame.image.load('assets/images/Off.png')
+    screen.blit(img, (560, 135))
+    pygame.display.update()
 
 
 cycled_commands = itertools.cycle([turn_off_music, turn_on_music])
 
 
-def on_click():
+def on_click(screen):
     command = next(cycled_commands)
-    return command()
+    return command(screen)
 
 def pause(is_paused):
     if not is_paused:
