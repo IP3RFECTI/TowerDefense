@@ -36,10 +36,7 @@ def events(screen, main_menu, player, square, radius, myfont, model, last_pos, d
             draw_on = True
         elif event.type == pygame.MOUSEBUTTONUP:
             if draw_on:
-                img_path = "screenshot.jpg"
                 #print(predict_digit(img_path, catapult, score), "jpg", "from drawing3")
-                from drawing3 import pred
-                print(pred(img_path))
                 square.fill("white")
             draw_on = False
         elif event.type == pygame.MOUSEMOTION:

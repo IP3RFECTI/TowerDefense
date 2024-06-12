@@ -117,6 +117,11 @@ def draw(mouse_positions, screen, start_position, squaree, catapult):
         mouse_positions.clear()
         start_position = None
         is_stopped = False
+        #РАСПОЗНАВАНИЕ И ВЫВОД ПРЕДСКАЗАНОЙ ЦИФРЫ ЗДЕЕЕЕЕСЬ
+        from drawing3 import pred
+        img_path = "screenshot.jpg"
+        pr = pred(img_path)
+        print(pr)
 
 
     pygame.display.update()
