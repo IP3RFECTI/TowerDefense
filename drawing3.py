@@ -9,36 +9,36 @@ import matplotlib.pyplot as plt
 from PIL import Image
 import random
 model = load_model('mnist_dense.h5')
-
-# Colors
-WHITE = (255, 255, 255)
-BLUE = (0, 0, 255)
-GREEN = (0, 0, 0)
-RED = (255, 0, 0)
-
-pygame.init()
-# Screen settings
-W = 800
-H = 360
-screen = pygame.display.set_mode((W, H))
-pygame.display.set_caption("События от мыши")
-
-FPS = 60
-clock = pygame.time.Clock()
-# Coordinates
-start_position = end_position = None
-mouse_positions = []
-save_screen = None
-predicted = None
-
-screen.fill('black')
-#background = pygame.image.load('assets/images/background.png').convert()
-#screen.blit(background, (0, 0))
-pygame.display.update()
-is_stopped = False
-white_square = pygame.Surface((150, 200))
-white_square.fill('white')
-
+# #
+# # Colors
+# WHITE = (255, 255, 255)
+# BLUE = (0, 0, 255)
+# GREEN = (0, 0, 0)
+# RED = (255, 0, 0)
+#
+# pygame.init()
+# # Screen settings
+# W = 800
+# H = 360
+# screen = pygame.display.set_mode((W, H))
+# pygame.display.set_caption("События от мыши")
+#
+# FPS = 60
+# clock = pygame.time.Clock()
+# # Coordinates
+# start_position = end_position = None
+# mouse_positions = []
+# save_screen = None
+# predicted = None
+#
+# screen.fill('black')
+# #background = pygame.image.load('assets/images/background.png').convert()
+# #screen.blit(background, (0, 0))
+# pygame.display.update()
+# is_stopped = False
+# white_square = pygame.Surface((150, 200))
+# white_square.fill('white')
+predicted = -1
 
 def predict_digit(imgx):
     img_path = imgx
@@ -55,12 +55,10 @@ def predict_digit(imgx):
     prediction = model.predict(x)
     res = np.argmax(prediction)
     return res
-while 1:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            exit()
-    img_path = 'screenshot.jpg'
-    print(predict_digit(img_path))
+
+def pred(img_path):
+    predicted = predict_digit(img_path)
+    return predicted
     # pygame.display.update()
     # screen.fill('#D9D9D9D9')
     # screen.blit(white_square, (130, 100))
@@ -86,9 +84,3 @@ while 1:
     #     mouse_positions.clear()
     #     start_position = None
     #     is_stopped = False
-
-
-
-
-if __name__ == '__main__':
-    """run"""

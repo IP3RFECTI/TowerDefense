@@ -16,6 +16,7 @@ import random
 model = load_model('mnist_dense.h5')
 
 
+
 def events(screen, main_menu, player, square, radius, myfont, model, last_pos, draw_on, catapult, score):
     """events processes"""
     for event in pygame.event.get():
@@ -36,7 +37,9 @@ def events(screen, main_menu, player, square, radius, myfont, model, last_pos, d
         elif event.type == pygame.MOUSEBUTTONUP:
             if draw_on:
                 img_path = "screenshot.jpg"
-                print(predict_digit(img_path, catapult, score), "jpg", "from drawing3")
+                #print(predict_digit(img_path, catapult, score), "jpg", "from drawing3")
+                from drawing3 import pred
+                print(pred(img_path))
                 square.fill("white")
             draw_on = False
         elif event.type == pygame.MOUSEMOTION:
