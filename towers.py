@@ -23,7 +23,7 @@ os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 is_stopped = False
 myfont = pygame.font.Font('assets/fonts/Molot.otf', 30)
 text_pause = myfont.render('Игра приостановлена', True, 'red')
-model = load_model('mnist_dense.h5')
+
 
 
 def run():
@@ -98,6 +98,7 @@ def run():
         pygame.display.flip()
 
 
+
 def draw(mouse_positions, screen, start_position, squaree, catapult):
     global is_stopped
     mouse_pos = pygame.mouse.get_pos()
@@ -135,6 +136,7 @@ def show_menu(main_menu, screen, leaderboard, settings):
     main_menu.append_option("Рекорды", lambda: show_leaders(main_menu, screen, leaderboard, settings))
     main_menu.append_option("Настройки", lambda: show_settings(main_menu, screen, leaderboard, settings))
     main_menu.append_option("Выход", lambda: quit())
+    pygame.display.update()
 
 
 def show_leaders(main_menu, screen, leaderboard, settings):
@@ -156,9 +158,6 @@ def show_settings(main_menu, screen, leaderboard, settings):
     main_menu.append_option("Музыка", lambda: on_click(screen))
     main_menu.append_option("Назад", lambda: show_menu(main_menu, screen, leaderboard, settings))
     pygame.display.update()
-
-
-
 
 
 def turn_on_music(screen):
