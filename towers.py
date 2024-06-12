@@ -151,10 +151,11 @@ def show_settings(main_menu, screen, leaderboard, settings):
     main_menu.delete_options()
     settings.settings_clicked()
     img = pygame.image.load('assets/images/On.png')
-    screen.blit(img, (500, 100))
+    screen.blit(img, (500, 90))
     main_menu.append_option("Настройки", lambda: None)
     main_menu.append_option("Музыка", lambda: on_click(screen))
     main_menu.append_option("Назад", lambda: show_menu(main_menu, screen, leaderboard, settings))
+    pygame.display.update()
 
 
 
@@ -163,14 +164,14 @@ def show_settings(main_menu, screen, leaderboard, settings):
 def turn_on_music(screen):
     pygame.mixer.music.unpause()
     img = pygame.image.load('assets/images/On.png')
-    screen.blit(img, (560, 135))
+    screen.blit(img, (500, 90))
     pygame.display.update()
 
 
 def turn_off_music(screen):
     pygame.mixer.music.pause()
     img = pygame.image.load('assets/images/Off.png')
-    screen.blit(img, (560, 135))
+    screen.blit(img, (500, 90))
     pygame.display.update()
 
 
