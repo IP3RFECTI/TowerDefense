@@ -16,6 +16,7 @@ import random
 model = load_model('mnist_dense.h5')
 
 
+
 def events(screen, main_menu, player, square, radius, myfont, model, last_pos, draw_on, catapult, score):
     """events processes"""
     for event in pygame.event.get():
@@ -35,9 +36,8 @@ def events(screen, main_menu, player, square, radius, myfont, model, last_pos, d
             draw_on = True
         elif event.type == pygame.MOUSEBUTTONUP:
             if draw_on:
-                pygame.image.save(square.subsurface(pygame.Rect(130, 100, 150, 200)), "screenshot.jpg")
                 img_path = "screenshot.jpg"
-                predict_digit(img_path, model, catapult, score)
+                print(predict_digit(img_path, model, catapult, score), "jpg")
                 square.fill("white")
             draw_on = False
         elif event.type == pygame.MOUSEMOTION:
@@ -82,15 +82,19 @@ def predict_digit(imgx, model, catapult, score):
     x = x.reshape(1, 784)
     x = 255 - x
     x /= 255
+    print(x)
     prediction = model.predict(x)
+    print(prediction)
+
     res = np.argmax(prediction)
-    print("predicted", res)
+    print(res)
     for rock in catapult.rocks:
-        print("rnd_number", rock.rnd_number)
         if int(rock.rnd_number) == int(res):
             catapult.rocks.remove(rock)
             score.stats.score += 100
+
     score.image_score()
+    return (res)
     # time.sleep(1)
     # return res
 

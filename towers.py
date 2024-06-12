@@ -112,13 +112,12 @@ def draw(mouse_positions, screen, start_position, squaree, catapult):
     elif is_stopped:
         rect = pygame.Rect(130, 100, 150, 200)
         sub = screen.subsurface(rect)
-        pygame.image.save(sub, "screenshot.png")
-        img_path = 'screenshot.png' # число которое предсказано
-        squaree.fill("white")
+        pygame.image.save(sub, "screenshot.jpg")
         mouse_positions.clear()
         start_position = None
         is_stopped = False
     pygame.display.update()
+
 
 
 def game_start(main_menu):
