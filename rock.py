@@ -40,7 +40,7 @@ class Rock(pygame.sprite.Sprite):
         self.rock_destruction_counter = 0
 
         self.rock_velocity = 0.0009
-
+        self.predicted = -1
         self.is_hit = False
         self.is_destroyed = False
         self.breaking_sound_played = False
@@ -51,6 +51,11 @@ class Rock(pygame.sprite.Sprite):
 
     def update(self):
         """rock flies"""
+        self.breaking_sound_played = False
+        if self.predicted == int(self.rnd_number):
+            self.is_destroyed = True
+            self.breaking.play()
+            self.breaking_sound_played = True
         if self.current_point_x >= self.end_point_x:
             self.current_point_x -= self.current_point_x * self.rock_velocity  # x update
             if not self.is_destroyed:
