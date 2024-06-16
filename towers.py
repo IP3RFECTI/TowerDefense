@@ -121,6 +121,7 @@ def draw(mouse_positions, screen, start_position, squaree, catapult):
         from drawing3 import pred
         img_path = "screenshot.jpg"
         pr = pred(img_path)
+        catapult.rocks[len(catapult.rocks) - 1].predicted = pr
         print(pr)
 
 
