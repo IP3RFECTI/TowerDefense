@@ -1,6 +1,5 @@
-import sys
 import unittest
-
+import sys
 import unit_tests
 import time
 import pygame
@@ -88,7 +87,7 @@ def run():
         keys = pygame.key.get_pressed()
         if start:
             screen.blit(white_square, (130, 100))
-            controls.update(player, None, score, start, leaderboard, stats)
+            controls.update(player, None, score, start)
             if keys[pygame.K_ESCAPE]:
                 time.sleep(0.5)
                 is_paused = pause(is_paused)
@@ -104,6 +103,7 @@ def run():
         elif music_leaders:
             settings.image_music()
         if player.health <= 0:
+            leaderboard.write_new_record(score.stats.score)
             sys.exit()
         pygame.time.Clock().tick(60)
         pygame.display.flip()

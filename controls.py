@@ -52,14 +52,13 @@ def show_menu(screen, background, main_menu):
     screen.blit(background, (0, 0))
     main_menu.draw(screen, screen.get_width() * 0.5, screen.get_height() * 0.2, 75)
 
-def update(player, rocks, score, start, leaderboard, stats):
+def update(player, rocks, score, start):
     """"screen update"""
     # rocks.draw_rocks()
     player.draw_player()
     score.show_score()
     if player.health <= 0:
         start = False
-        leaderboard.write_new_record(stats.score)
 
 
 def update_catapult(catapult):
