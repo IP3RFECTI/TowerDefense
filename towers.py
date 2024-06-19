@@ -1,3 +1,6 @@
+import unittest
+
+import unit_tests
 import time
 import pygame
 import catapult
@@ -183,4 +186,5 @@ def game_over():
 
 if __name__ == '__main__':
     """run"""
+    test = unittest.Test()
     run()
