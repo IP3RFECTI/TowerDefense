@@ -52,13 +52,14 @@ def show_menu(screen, background, main_menu):
     screen.blit(background, (0, 0))
     main_menu.draw(screen, screen.get_width() * 0.5, screen.get_height() * 0.2, 75)
 
-def update(player, rocks, score, start):
+def update(player, rocks, score, start, leaderboard, stats):
     """"screen update"""
     # rocks.draw_rocks()
     player.draw_player()
     score.show_score()
     if player.health <= 0:
         start = False
+        leaderboard.write_new_record(stats.score)
 
 
 def update_catapult(catapult):
@@ -79,16 +80,21 @@ def enemies_check(screen, enemies):
 def predict_digit(imgx, catapult, score):
     img_path = "screenshot.jpg"
     pr = pred(img_path)
+
     catapult.rocks[len(catapult.rocks) - 1].predicted = pr
     print(pr)
     for rock in catapult.rocks:
         if int(rock.rnd_number) == int(pr):
             # catapult.rocks.remove(rock)
+            rock.predicted = pr
+            if rock.destruction_animation_ended:
+                catapult.rocks.remove(rock)
             score.stats.score += 100
         print(pr)
     score.image_score()
     # time.sleep(1)
     # return res
+    # catapult.rocks.remove(rock)
 
 
 def roundline(canvas, color, start, end, radius=1):

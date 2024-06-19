@@ -37,9 +37,9 @@ class Rock(pygame.sprite.Sprite):
         self.rock_animation_counter = 0
         self.rock_animation_tick_counter = 1
 
-        self.rock_destruction_speed_seconds = 1
-        self.rock_destruction_speed = self.rock_animation_speed_seconds * self.clock.tick(self.FPS)
-        self.rock_destruction_tick = self.rock_animation_speed // len(self.frame_images_rock)
+        self.rock_destruction_speed_seconds = 0.4
+        self.rock_destruction_speed = self.rock_destruction_speed_seconds * self.clock.tick(self.FPS)
+        self.rock_destruction_tick = self.rock_destruction_speed // len(self.frame_images_rock)
         self.rock_destruction_counter = 0
         self.rock_destruction_tick_counter = 1
 
@@ -68,7 +68,7 @@ class Rock(pygame.sprite.Sprite):
                 self.rock_animation_destruction()
         else:
             if not self.breaking_sound_played:
-                self.breaking.play()
+                self.hit_sound.play()
                 self.breaking_sound_played = True
                 self.player.update_player_hp(100)
 

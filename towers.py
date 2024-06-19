@@ -1,3 +1,4 @@
+import sys
 import unittest
 
 import unit_tests
@@ -22,15 +23,17 @@ import matplotlib.pyplot as plt
 from PIL import Image
 import random
 import itertools
+
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 is_stopped = False
 myfont = pygame.font.Font('assets/fonts/Molot.otf', 30)
 text_pause = myfont.render('Игра приостановлена', True, 'red')
 
 
-
 def run():
     """run game"""
+    icon = pygame.image.load('assets/images/icon.png')
+    pygame.display.set_icon(icon)
     pygame.init()
     width = 800
     height = 360
@@ -85,7 +88,7 @@ def run():
         keys = pygame.key.get_pressed()
         if start:
             screen.blit(white_square, (130, 100))
-            controls.update(player, None, score, start)
+            controls.update(player, None, score, start, leaderboard, stats)
             if keys[pygame.K_ESCAPE]:
                 time.sleep(0.5)
                 is_paused = pause(is_paused)
@@ -100,10 +103,10 @@ def run():
             leaderboard.draw_leaderboards()
         elif music_leaders:
             settings.image_music()
-
+        if player.health <= 0:
+            sys.exit()
         pygame.time.Clock().tick(60)
         pygame.display.flip()
-
 
 
 def draw(mouse_positions, screen, start_position, squaree, catapult, score):
@@ -171,6 +174,7 @@ def pause(is_paused):
         return True
     else:
         return False
+
 
 def game_over():
     start = False
