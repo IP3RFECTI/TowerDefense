@@ -1,9 +1,5 @@
 import pygame
 import random
-import player
-
-pygame.init()
-
 
 class Rock(pygame.sprite.Sprite):
     def __init__(self, screen, spawn_point, player):
@@ -43,18 +39,23 @@ class Rock(pygame.sprite.Sprite):
         self.rock_destruction_tick = self.rock_animation_speed // len(self.frame_images_rock)
         self.rock_destruction_counter = 0
 
-        self.rock_velocity = 0.0005
-
+        self.rock_velocity = 0.0009
+        self.predicted = -1
         self.is_hit = False
         self.is_destroyed = False
         self.breaking_sound_played = False
         # Numbers
         self.rnd_number = str(random.randint(0, 9))
-        self._ARIAL_50 = pygame.font.SysFont('arial', 50)
+        self._ARIAL_50 = pygame.font.SysFont('arial', 40)
         self.rnd_number_surface = self._ARIAL_50.render(self.rnd_number, True, ('#FFFFFF'))
 
     def update(self):
         """rock flies"""
+        self.breaking_sound_played = False
+        if self.predicted == int(self.rnd_number):
+            self.is_destroyed = True
+            self.breaking.play()
+            self.breaking_sound_played = True
         if self.current_point_x >= self.end_point_x:
             self.current_point_x -= self.current_point_x * self.rock_velocity  # x update
             if not self.is_destroyed:
@@ -77,7 +78,7 @@ class Rock(pygame.sprite.Sprite):
             self.rock_direction()
         self.screen.blit(self.frame_images_rock[self.rock_animation_counter],
                          (self.current_point_x, self.current_point_y))
-        self.screen.blit(self.rnd_number_surface, (self.current_point_x + 30, self.current_point_y))
+        self.screen.blit(self.rnd_number_surface, (self.current_point_x + 40, self.current_point_y+15))
         pygame.display.flip()
         self.clock.tick(self.FPS)
 

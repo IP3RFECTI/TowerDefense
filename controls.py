@@ -16,6 +16,7 @@ import random
 model = load_model('mnist_dense.h5')
 
 
+
 def events(screen, main_menu, player, square, radius, myfont, model, last_pos, draw_on, catapult, score):
     """events processes"""
     for event in pygame.event.get():
@@ -31,20 +32,13 @@ def events(screen, main_menu, player, square, radius, myfont, model, last_pos, d
                     main_menu.select()
                     catapult = Catapult(screen, screen.get_width(), player)
         elif event.type == pygame.MOUSEBUTTONDOWN:
-            # Selecting Color Code
-            # Draw a single circle wheneven mouse is clicked down.
             pygame.draw.circle(square, 'black', event.pos, radius)
             draw_on = True
         elif event.type == pygame.MOUSEBUTTONUP:
+            if draw_on:
+                #print(predict_digit(img_path, catapult, score), "jpg", "from drawing3")
+                square.fill("white")
             draw_on = False
-            rect = pygame.Rect(130, 100, 150, 200)  # указать область где белый фон и он будет его фоткать 0, 0, 150, 200
-            sub = square.subsurface(rect)
-            pygame.image.save(sub, "screenshot.jpg")
-            img_path = 'screenshot.jpg'
-            predicted = predict_digit(img_path, model, catapult, score)  # число которое предсказано 130, 100, 150, 200
-            text_surface = myfont.render(f'{predicted}', False, 'red')
-            square.fill("white")
-            square.blit(text_surface, (0, 100))
         elif event.type == pygame.MOUSEMOTION:
             if draw_on:
                 pygame.draw.circle(square, 'black', event.pos, radius)
@@ -80,7 +74,7 @@ def enemies_check(screen, enemies):
     for enemy in enemies.sprites():
         break
 
-def predict_digit(imgx, model, catapult, score):
+def predict_digit(imgx, catapult, score):
     img_path = imgx
     img = image.load_img(img_path, target_size=(28, 28), color_mode="grayscale")
     x = image.img_to_array(img)
@@ -89,12 +83,14 @@ def predict_digit(imgx, model, catapult, score):
     x /= 255
     prediction = model.predict(x)
     res = np.argmax(prediction)
-    print("predicted", res)
     for rock in catapult.rocks:
-        print("rnd_number", rock.rnd_number)
         if int(rock.rnd_number) == int(res):
             catapult.rocks.remove(rock)
             score.stats.score += 100
+        print(res)
+
+    score.image_score()
+    return res
     # time.sleep(1)
     # return res
 

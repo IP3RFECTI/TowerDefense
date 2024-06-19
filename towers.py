@@ -26,7 +26,7 @@ os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 is_stopped = False
 myfont = pygame.font.Font('assets/fonts/Molot.otf', 30)
 text_pause = myfont.render('Игра приостановлена', True, 'red')
-model = load_model('mnist_dense.h5')
+
 
 
 def run():
@@ -40,8 +40,7 @@ def run():
     is_paused = False
     """Fonts and images"""
     background = pygame.image.load('assets/images/background.png').convert()
-    font_Montserrat = pygame.font.Font('assets/fonts/Montserrat-ExtraBold.ttf', 70)  # НЕ используется здесь
-    # Рисование изображения в правой части экрана
+    font_Montserrat = pygame.font.Font('assets/fonts/Montserrat-ExtraBold.ttf', 70)
     """Music"""
     pygame.mixer.music.load('assets/music/BGMusic1.mp3')
     pygame.mixer.music.set_volume(0.15)
@@ -66,11 +65,14 @@ def run():
     radius = 5
     model = load_model('mnist_dense.h5')
     last_pos = (150, 200)
-    draw_on = False
+    draw_on = True
     start_position = end_position = None
     mouse_positions = []
     white_square = pygame.Surface((150, 200))
     white_square.fill('#FFFFFF')
+
+    screen.blit(white_square, (200, 200))
+    mouse_pos = pygame.mouse.get_pos()
 
     while True:
         start = main_menu.start_clicked()
@@ -99,12 +101,13 @@ def run():
         pygame.display.flip()
 
 
+
 def draw(mouse_positions, screen, start_position, squaree, catapult):
     global is_stopped
     mouse_pos = pygame.mouse.get_pos()
     pressed = pygame.mouse.get_pressed()
     for i in range(len(mouse_positions)):
-        pygame.draw.circle(screen, 'black', mouse_positions[i], 10)
+        pygame.draw.circle(screen, 'black', mouse_positions[i], 15)
     if pressed[0]:
         if start_position is None:
             start_position = mouse_pos
@@ -114,12 +117,19 @@ def draw(mouse_positions, screen, start_position, squaree, catapult):
         rect = pygame.Rect(130, 100, 150, 200)
         sub = screen.subsurface(rect)
         pygame.image.save(sub, "screenshot.jpg")
-        img_path = 'screenshot.jpg' # число которое предсказано
-        squaree.fill("white")
         mouse_positions.clear()
         start_position = None
         is_stopped = False
+        #РАСПОЗНАВАНИЕ И ВЫВОД ПРЕДСКАЗАНОЙ ЦИФРЫ ЗДЕЕЕЕЕСЬ
+        from drawing3 import pred
+        img_path = "screenshot.jpg"
+        pr = pred(img_path)
+        catapult.rocks[len(catapult.rocks) - 1].predicted = pr
+        print(pr)
+
+
     pygame.display.update()
+
 
 
 def game_start(main_menu):
@@ -130,18 +140,19 @@ def game_start(main_menu):
 def show_menu(main_menu, screen, leaderboard, settings):
     """start menu"""
     main_menu.delete_options()
-    main_menu.append_option("Башня мага", lambda: passed())
+    main_menu.append_option("Башня мага", lambda: None)
     main_menu.append_option("Играть", lambda: game_start(main_menu))
     main_menu.append_option("Рекорды", lambda: show_leaders(main_menu, screen, leaderboard, settings))
     main_menu.append_option("Настройки", lambda: show_settings(main_menu, screen, leaderboard, settings))
     main_menu.append_option("Выход", lambda: quit())
+    pygame.display.update()
 
 
 def show_leaders(main_menu, screen, leaderboard, settings):
     """show leaderboards"""
     main_menu.delete_options()
     leaderboard.leaderboard_clicked()
-    main_menu.append_option("Рекорды", lambda: passed())
+    main_menu.append_option("Рекорды", lambda: None)
     main_menu.append_option("Назад", lambda: [show_menu(main_menu, screen, leaderboard, settings),
                                               leaderboard.leaderboard_clicked()])
 
@@ -150,29 +161,34 @@ def show_settings(main_menu, screen, leaderboard, settings):
     """show settings"""
     main_menu.delete_options()
     settings.settings_clicked()
-    main_menu.append_option("Настройки", lambda: passed())
-    main_menu.append_option("Музыка", lambda: on_click())
+    img = pygame.image.load('assets/images/On.png')
+    screen.blit(img, (500, 90))
+    main_menu.append_option("Настройки", lambda: None)
+    main_menu.append_option("Музыка", lambda: on_click(screen))
     main_menu.append_option("Назад", lambda: show_menu(main_menu, screen, leaderboard, settings))
+    pygame.display.update()
 
 
-def turn_on_music():
+def turn_on_music(screen):
     pygame.mixer.music.unpause()
+    img = pygame.image.load('assets/images/On.png')
+    screen.blit(img, (500, 90))
+    pygame.display.update()
 
 
-def passed():
-    pass
-
-
-def turn_off_music():
+def turn_off_music(screen):
     pygame.mixer.music.pause()
+    img = pygame.image.load('assets/images/Off.png')
+    screen.blit(img, (500, 90))
+    pygame.display.update()
 
 
 cycled_commands = itertools.cycle([turn_off_music, turn_on_music])
 
 
-def on_click():
+def on_click(screen):
     command = next(cycled_commands)
-    return command()
+    return command(screen)
 
 def pause(is_paused):
     if not is_paused:

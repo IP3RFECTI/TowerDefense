@@ -28,12 +28,12 @@ class Catapult(pygame.sprite.Sprite):
 
         self.FPS = 60
         self.clock = pygame.time.Clock()
-        self.cooldown_seconds = 6
-        self.cooldown_timer = self.cooldown_seconds * self.clock.tick(self.FPS)
-        self.cooldown_tick = self.cooldown_timer // self.clock.tick(self.FPS)
+        self.cooldown_seconds = 3
+        self.cooldown_timer = self.cooldown_seconds * self.clock.tick(self.FPS)/2
+        self.cooldown_tick = self.cooldown_timer // self.clock.tick(self.FPS)/2
         self.cooldown_counter = 0
 
-        self.throw_animation_speed_seconds = 4  # more means slower
+        self.throw_animation_speed_seconds = 3  # more means slower
         self.throw_animation_speed = (self.throw_animation_speed_seconds * self.clock.tick(self.FPS))
         self.throw_animation_tick = self.throw_animation_speed // self.throw_index_len
         self.throw_animation_counter = 0

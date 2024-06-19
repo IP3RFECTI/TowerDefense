@@ -10,5 +10,4 @@ class Stats():
 
     def reset_stats(self):
         """reset values"""
-        self.lifes_left = 2
         self.score = 0

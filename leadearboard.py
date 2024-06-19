@@ -60,14 +60,14 @@ class Leaderboard:
         counter = 0
         for name, val in self.file_data:
             if counter == 0:
-                draw = self.font_Montserrat.render(name + "                  " +
-                                                   val, True, (217, 217, 0))
-                self.screen.blit(draw, (self.width*0.05, self.height*0.05 + (counter*self.rows_offset)))
+                draw = self.font_Montserrat.render(name + "                                   " +
+                                                   val, True, '#002069')
+                self.screen.blit(draw, (self.width*0.2, self.height*0.15 + (counter*self.rows_offset)))
             else:
-                draw = self.font_Montserrat.render(name + ": ", True, (100, 100, 255))
-                self.screen.blit(draw, (self.width*0.05, self.height*0.05 + (counter*self.rows_offset)))
-                draw = self.font_Montserrat.render(val, True, (100, 100, 255))
-                self.screen.blit(draw, (self.width*0.27, self.height*0.05 + (counter*self.rows_offset)))
+                draw = self.font_Montserrat.render(name + ": ", True, 'red')
+                self.screen.blit(draw, (self.width*0.19, self.height*0.15 + (counter*self.rows_offset)))
+                draw = self.font_Montserrat.render(val, True, 'blue')
+                self.screen.blit(draw, (self.width*0.72, self.height*0.15 + (counter*self.rows_offset)))
             counter += 1
 
     def leaderboard_clicked(self):
