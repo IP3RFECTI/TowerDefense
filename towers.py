@@ -77,6 +77,7 @@ def run():
     while True:
         start = main_menu.start_clicked()
         show_leaders = leaderboard.clicked
+        music_leaders = settings.clicked
         controls.events(screen, main_menu, player, square, radius, myfont, model, last_pos, draw_on, catapult, score)
         controls.show_menu(screen, background, main_menu)
         if not start:
@@ -84,7 +85,7 @@ def run():
         keys = pygame.key.get_pressed()
         if start:
             screen.blit(white_square, (130, 100))
-            controls.update(player, None, score)
+            controls.update(player, None, score, start)
             if keys[pygame.K_ESCAPE]:
                 time.sleep(0.5)
                 is_paused = pause(is_paused)
@@ -92,17 +93,20 @@ def run():
                 controls.update_catapult(catapult)
                 controls.update_rocks(catapult.rocks)
                 player.draw_player_hp()
-                draw(mouse_positions, screen, start_position, white_square, catapult)
+                draw(mouse_positions, screen, start_position, white_square, catapult, score)
             else:
                 screen.blit(text_pause, (250, 145))
         elif show_leaders:
             leaderboard.draw_leaderboards()
+        elif music_leaders:
+            settings.image_music()
+
         pygame.time.Clock().tick(60)
         pygame.display.flip()
 
 
 
-def draw(mouse_positions, screen, start_position, squaree, catapult):
+def draw(mouse_positions, screen, start_position, squaree, catapult, score):
     global is_stopped
     mouse_pos = pygame.mouse.get_pos()
     pressed = pygame.mouse.get_pressed()
@@ -120,16 +124,9 @@ def draw(mouse_positions, screen, start_position, squaree, catapult):
         mouse_positions.clear()
         start_position = None
         is_stopped = False
-        #РАСПОЗНАВАНИЕ И ВЫВОД ПРЕДСКАЗАНОЙ ЦИФРЫ ЗДЕЕЕЕЕСЬ
-        from drawing3 import pred
-        img_path = "screenshot.jpg"
-        pr = pred(img_path)
-        catapult.rocks[len(catapult.rocks) - 1].predicted = pr
-        print(pr)
-
+        controls.predict_digit("screenshot.jpg", catapult, score)
 
     pygame.display.update()
-
 
 
 def game_start(main_menu):
@@ -164,31 +161,10 @@ def show_settings(main_menu, screen, leaderboard, settings):
     img = pygame.image.load('assets/images/On.png')
     screen.blit(img, (500, 90))
     main_menu.append_option("Настройки", lambda: None)
-    main_menu.append_option("Музыка", lambda: on_click(screen))
+    main_menu.append_option("Музыка", lambda: settings.switch_music())
     main_menu.append_option("Назад", lambda: show_menu(main_menu, screen, leaderboard, settings))
     pygame.display.update()
 
-
-def turn_on_music(screen):
-    pygame.mixer.music.unpause()
-    img = pygame.image.load('assets/images/On.png')
-    screen.blit(img, (500, 90))
-    pygame.display.update()
-
-
-def turn_off_music(screen):
-    pygame.mixer.music.pause()
-    img = pygame.image.load('assets/images/Off.png')
-    screen.blit(img, (500, 90))
-    pygame.display.update()
-
-
-cycled_commands = itertools.cycle([turn_off_music, turn_on_music])
-
-
-def on_click(screen):
-    command = next(cycled_commands)
-    return command(screen)
 
 def pause(is_paused):
     if not is_paused:
@@ -202,5 +178,5 @@ def game_over():
 
 if __name__ == '__main__':
     """run"""
-    test = unittest.Test()
+    # test = unittest.Test()
     run()

@@ -3,7 +3,7 @@ import pygame
 import sys
 from catapult import Catapult
 from random import randrange
-
+from drawing3 import pred
 import numpy as np
 import os
 from tensorflow.keras.models import load_model
@@ -52,11 +52,13 @@ def show_menu(screen, background, main_menu):
     screen.blit(background, (0, 0))
     main_menu.draw(screen, screen.get_width() * 0.5, screen.get_height() * 0.2, 75)
 
-def update(player, rocks, score):
+def update(player, rocks, score, start):
     """"screen update"""
     # rocks.draw_rocks()
     player.draw_player()
     score.show_score()
+    if player.health <= 0:
+        start = False
 
 
 def update_catapult(catapult):
@@ -75,22 +77,16 @@ def enemies_check(screen, enemies):
         break
 
 def predict_digit(imgx, catapult, score):
-    img_path = imgx
-    img = image.load_img(img_path, target_size=(28, 28), color_mode="grayscale")
-    x = image.img_to_array(img)
-    x = x.reshape(1, 784)
-    x = 255 - x
-    x /= 255
-    prediction = model.predict(x)
-    res = np.argmax(prediction)
+    img_path = "screenshot.jpg"
+    pr = pred(img_path)
+    catapult.rocks[len(catapult.rocks) - 1].predicted = pr
+    print(pr)
     for rock in catapult.rocks:
-        if int(rock.rnd_number) == int(res):
-            catapult.rocks.remove(rock)
+        if int(rock.rnd_number) == int(pr):
+            # catapult.rocks.remove(rock)
             score.stats.score += 100
-        print(res)
-
+        print(pr)
     score.image_score()
-    return res
     # time.sleep(1)
     # return res
 
